@@ -33,4 +33,6 @@ public interface IMainActivity {
 
     void getDataFail(String errCode, String errMsg);
 
+    void unSubcription();
+
 }

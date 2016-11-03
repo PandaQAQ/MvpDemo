@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     @Override
     public void loadData() {
-        mPresenter.loadData();
+        mPresenter.loadDataByRxandroidRetrofit();
     }
 
     @Override
@@ -70,5 +70,11 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     public void getDataFail(String errCode, String errMsg) {
         Snackbar.make(mActivityMain, errMsg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    //使用RxAndroid添加的方法，用于在退出时解绑观察
+    @Override
+    public void unSubcription() {
+        mPresenter.unsubcription();
     }
 }
