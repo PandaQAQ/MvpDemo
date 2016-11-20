@@ -196,8 +196,16 @@ public class ZhihuDailyBiz {
 MVP模式能降低各个层的耦合度，提高代码的可读性和项目的可维护性。网络还有异步操作这些如果配合RxAndroid+Retrofit使用效果更佳，RxAndroid+Retrofit的网络框架我现在也只是会用阶段，待我深入理解了之后会再来一篇文章与大家分享
 更多内容可以关注简书[PandaQ404][4]   
 
+## 新增 
+### Retrofit+RxAndroid 
+详细内容移步简书[优雅的构建Android项目之RxAndroid+Retrofit网络请求][5]
+
+### okhttp兼容自签名证书https链接
+详细内容移步简书[Okhttp 访问自签名证书 HTTPS 地址解决方案][6]
+
   [1]: http://oddbiem8l.bkt.clouddn.com/mvp.png
   [2]: http://oddbiem8l.bkt.clouddn.com/project.png
   [3]: http://oddbiem8l.bkt.clouddn.com/mvp%E4%B8%80%E4%B8%AA%E8%AF%B7%E6%B1%82%E7%9A%84%E8%BF%87%E7%A8%8B.png
   [4]: https://github.com/PandaQAQ/MvpDemo
-  [5]: https://github.com/PandaQAQ/MvpDemo
+  [5]: http://www.jianshu.com/p/a7635e39c5ac
+  [6]: http://www.jianshu.com/p/cc7ae2f96b64
