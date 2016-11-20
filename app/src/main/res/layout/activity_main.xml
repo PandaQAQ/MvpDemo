@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pandaq.mvpdemo.view.MainActivity">
+    android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/zhihudaily_list"
+    <Button
+        android:id="@+id/tonews"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <ProgressBar
-        android:id="@+id/progressbar"
-        style="@style/Base.Widget.AppCompat.ProgressBar"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:text="ZhihuNews"/>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/https_friendly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="https Friendly"/>
+
+    <Button
+        android:id="@+id/https_unfriendly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="https UnFriendly"/>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/https_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
+</LinearLayout>

@@ -1,80 +1,75 @@
 package com.pandaq.mvpdemo.view;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.pandaq.mvpdemo.R;
-import com.pandaq.mvpdemo.adapter.ZhihuStoryAdapter;
-import com.pandaq.mvpdemo.databeans.ZhihuStory;
-import com.pandaq.mvpdemo.presenter.MainPresenter;
+import com.pandaq.mvpdemo.enums.ClientType;
+import com.pandaq.mvpdemo.presenter.MainActivityPresenter;
 import com.pandaq.mvpdemo.view.IViewBind.IMainActivity;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+/**
+ * Created by PandaQ on 2016/11/20.
+ * email : 767807368@qq.com
+ */
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
 
-    ZhihuStoryAdapter mAdapter;
-    @BindView(R.id.zhihudaily_list)
-    RecyclerView mZhihudailyList;
-    @BindView(R.id.activity_main)
-    RelativeLayout mActivityMain;
-    @BindView(R.id.progressbar)
-    ProgressBar mProgressbar;
-    //将View与Presenter关联
-    private MainPresenter mPresenter = new MainPresenter(this);
+    @BindView(R.id.tonews)
+    Button mTonews;
+    @BindView(R.id.https_friendly)
+    Button mHttpsFriendly;
+    @BindView(R.id.https_unfriendly)
+    Button mHttpsUnfriendly;
+    @BindView(R.id.https_result)
+    TextView mHttpsResult;
+    private MainActivityPresenter mPresenter = new MainActivityPresenter(this);
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mZhihudailyList.setLayoutManager(new LinearLayoutManager(this));
-        loadData();
     }
 
-    @Override
-    public void loadData() {
-        mPresenter.loadDataByRxandroidRetrofit();
-    }
-
-    @Override
-    public void showProgressBar() {
-        mProgressbar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hidProgressBar() {
-        mProgressbar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void getDataSuccess(ArrayList<ZhihuStory> stories) {
-        //不管界面怎么改只要与presenter进行绑定都得到的是stories数据，view界面只负责展示不关心怎么获取怎么处理解析数据
-        if (mAdapter != null) {
-            mAdapter.addItem(stories);
-        } else {
-            mAdapter = new ZhihuStoryAdapter(this, stories);
-            mZhihudailyList.setAdapter(mAdapter);
+    @OnClick({R.id.tonews, R.id.https_friendly, R.id.https_unfriendly})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tonews:
+                Intent intent = new Intent(this, NewsListActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.https_friendly:
+                get12306Test(ClientType.TYPE_HTTPSUTILS);
+                break;
+            case R.id.https_unfriendly:
+                get12306Test(ClientType.TYPE_OKHTTPCLIENT);
+                break;
         }
     }
 
     @Override
-    public void getDataFail(String errCode, String errMsg) {
-        Snackbar.make(mActivityMain, errMsg, Snackbar.LENGTH_SHORT).show();
+    public void get12306Test(ClientType type) {
+        mPresenter.get12306Test(this, type);
     }
 
-    //使用RxAndroid添加的方法，用于在退出时解绑观察
     @Override
-    public void unSubcription() {
+    public void showResult(String result) {
+        mHttpsResult.setText(result);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         mPresenter.unsubcription();
     }
 }

@@ -2,6 +2,8 @@ package com.pandaq.mvpdemo.api;
 
 import com.pandaq.mvpdemo.databeans.ZhiHuDaily;
 
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import rx.Observable;
@@ -19,4 +21,7 @@ public interface RetrofitService {
     //使用retrofit+RxAndroid的接口定义
     @GET("news/latest")
     Observable<ZhiHuDaily> getZhihuDaily();
+
+    @GET("/")
+    Observable<ResponseBody> get12306Test();
 }

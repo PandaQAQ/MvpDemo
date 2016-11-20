@@ -7,4 +7,5 @@ package com.pandaq.mvpdemo;
 
 public class GlobalConfig {
     public static final String baseUrl = "http://news-at.zhihu.com/api/4/";
+    public static final String baseTestUrl = "https://kyfw.12306.cn/otn/index/init/";
 }

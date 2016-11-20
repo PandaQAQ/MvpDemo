@@ -7,12 +7,9 @@ import com.pandaq.mvpdemo.api.ApiManager;
 import com.pandaq.mvpdemo.api.HttpServiceManager;
 import com.pandaq.mvpdemo.databeans.ZhiHuDaily;
 import com.pandaq.mvpdemo.databeans.ZhihuStory;
-import com.pandaq.mvpdemo.presenter.BasePresenter;
 import com.pandaq.mvpdemo.utils.OnEventLister;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,7 +61,7 @@ public class ZhihuDailyBiz{
 
     public void getStoryDataByRetrofit(final OnEventLister<ArrayList<ZhihuStory>> eventLister) {
         ApiManager apiManager = ApiManager.getInstence();
-        Call<ZhiHuDaily> call = apiManager.getDailyService().getZhihuDailyRetrofitOnly();
+        Call<ZhiHuDaily> call = apiManager.getDataService().getZhihuDailyRetrofitOnly();
         //发送异步请求
         call.enqueue(new Callback<ZhiHuDaily>() {
             @Override
