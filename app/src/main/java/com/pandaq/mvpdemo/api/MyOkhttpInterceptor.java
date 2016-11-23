@@ -23,14 +23,8 @@ public class MyOkhttpInterceptor implements Interceptor {
         String TAG_REQUEST = "request";
         Log.e(TAG_REQUEST, request.url().toString());
         Response response = chain.proceed(request);
+        System.out.println(response.body().toString());
         //打印返回的message
-        String TAG_RESPONSE = "response";
-        Log.e(TAG_RESPONSE, response.message());
-        Headers responseHeaders = response.headers();
-        for (int i = 0; i < responseHeaders.size(); i++) {
-            System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-        }
-        System.out.println(response.body().string());
         return response;
     }
 }
