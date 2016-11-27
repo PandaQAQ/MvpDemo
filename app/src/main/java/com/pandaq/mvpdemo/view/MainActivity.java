@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pandaq.mvpdemo.R;
+import com.pandaq.mvpdemo.customview.MenuItem;
 import com.pandaq.mvpdemo.enums.ClientType;
 import com.pandaq.mvpdemo.presenter.MainActivityPresenter;
 import com.pandaq.mvpdemo.view.IViewBind.IMainActivity;
@@ -25,11 +29,11 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     @BindView(R.id.tonews)
-    Button mTonews;
+    MenuItem mTonews;
     @BindView(R.id.https_friendly)
-    Button mHttpsFriendly;
+    MenuItem mHttpsFriendly;
     @BindView(R.id.https_unfriendly)
-    Button mHttpsUnfriendly;
+    MenuItem mHttpsUnfriendly;
     @BindView(R.id.https_result)
     TextView mHttpsResult;
     private MainActivityPresenter mPresenter = new MainActivityPresenter(this);

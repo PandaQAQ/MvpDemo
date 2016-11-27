@@ -1,34 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="@dimen/margin_8dp">
 
-    <Button
+    <com.pandaq.mvpdemo.customview.MenuItem
         android:id="@+id/tonews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ZhihuNews"/>
+        app:text="ZhihuNews"
+        app:textColor="@color/black"
+        app:textSize="14sp" />
 
-    <Button
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.01dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/gray_line" />
+
+    <com.pandaq.mvpdemo.customview.MenuItem
         android:id="@+id/https_friendly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="https Friendly"/>
+        app:text="HTTPS friendly"
+        app:textColor="@color/black"
+        app:textSize="14sp" />
 
-    <Button
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.01dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/gray_line" />
+
+    <com.pandaq.mvpdemo.customview.MenuItem
         android:id="@+id/https_unfriendly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="https UnFriendly"/>
+        app:text="HTTPS unfriendly"
+        app:textColor="@color/black"
+        app:textSize="14sp" />
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/https_result"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </ScrollView>
 </LinearLayout>

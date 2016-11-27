@@ -12,4 +12,5 @@
     <dimen name="text_size_mid">18sp</dimen>
     <dimen name="text_size_small">16sp</dimen>
     <dimen name="text_size_min">14sp</dimen>
+    <dimen name="default_textsize">13sp</dimen>
 </resources>
