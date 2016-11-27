@@ -203,9 +203,13 @@ MVP模式能降低各个层的耦合度，提高代码的可读性和项目的�
 ### okhttp兼容自签名证书https链接
 详细内容移步简书[Okhttp 访问自签名证书 HTTPS 地址解决方案][6]
 
+### 自定义 View 之组合大法
+详细内容移步简书[自定义 View 之组合大法][7]
+
   [1]: http://oddbiem8l.bkt.clouddn.com/mvp.png
   [2]: http://oddbiem8l.bkt.clouddn.com/project.png
   [3]: http://oddbiem8l.bkt.clouddn.com/mvp%E4%B8%80%E4%B8%AA%E8%AF%B7%E6%B1%82%E7%9A%84%E8%BF%87%E7%A8%8B.png
   [4]: https://github.com/PandaQAQ/MvpDemo
   [5]: http://www.jianshu.com/p/a7635e39c5ac
   [6]: http://www.jianshu.com/p/cc7ae2f96b64
+  [7]: http://www.jianshu.com/p/92ae9fb83e74
