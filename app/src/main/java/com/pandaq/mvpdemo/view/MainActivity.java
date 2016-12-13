@@ -4,11 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pandaq.mvpdemo.R;
@@ -45,11 +41,12 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.tonews, R.id.https_friendly, R.id.https_unfriendly})
+    @OnClick({R.id.tonews, R.id.https_friendly, R.id.https_unfriendly, R.id.send_sms})
     public void onClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.tonews:
-                Intent intent = new Intent(this, NewsListActivity.class);
+                intent = new Intent(this, NewsListActivity.class);
                 startActivity(intent);
                 break;
             case R.id.https_friendly:
@@ -57,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
                 break;
             case R.id.https_unfriendly:
                 get12306Test(ClientType.TYPE_OKHTTPCLIENT);
+                break;
+            case R.id.send_sms:
+                intent = new Intent(this, GetSmsActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -76,4 +77,5 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         super.onPause();
         mPresenter.unsubcription();
     }
+
 }

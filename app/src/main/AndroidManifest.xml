@@ -3,6 +3,10 @@
           package="com.pandaq.mvpdemo">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,6 +23,7 @@
         <activity
             android:name=".view.NewsListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".view.GetSmsActivity"/>
     </application>
 
 </manifest>
