@@ -1,11 +1,13 @@
 package com.pandaq.mvpdemo.api;
 
 import com.pandaq.mvpdemo.databeans.ZhiHuDaily;
+import com.pandaq.mvpdemo.databeans.ZhihuStoryContent;
 
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -24,4 +26,7 @@ public interface RetrofitService {
 
     @GET("/")
     Observable<ResponseBody> get12306Test();
+
+    @GET("news/{id}")
+    Observable<ZhihuStoryContent> getStoryContent(@Path("id") String id);
 }

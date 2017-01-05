@@ -1,4 +1,4 @@
-package com.pandaq.mvpdemo.view;
+package com.pandaq.mvpdemo.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.pandaq.mvpdemo.R;
 import com.pandaq.mvpdemo.presenter.GetSmsPresenter;
 import com.pandaq.mvpdemo.utils.SmsObserver;
-import com.pandaq.mvpdemo.view.IViewBind.IGetSmsActivity;
+import com.pandaq.mvpdemo.ui.IViewBind.IGetSmsActivity;
 
 import java.util.regex.Pattern;
 

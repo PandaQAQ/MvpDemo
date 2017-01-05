@@ -44,7 +44,7 @@ public class ApiManager {
     public RetrofitService getDataService() {
         OkHttpClient client = new OkHttpClient.Builder()
                 //添加应用拦截器
-                .addInterceptor(new MyOkhttpInterceptor())
+                .addInterceptor(new HttpInterceptor())
                 //添加网络拦截器
 //                .addNetworkInterceptor(new MyOkhttpInterceptor())
                 .build();
@@ -66,7 +66,7 @@ public class ApiManager {
         if (type == ClientType.TYPE_OKHTTPCLIENT) {
             client = new OkHttpClient.Builder()
                     //添加应用拦截器
-                    .addInterceptor(new MyOkhttpInterceptor())
+                    .addInterceptor(new HttpInterceptor())
                     //添加网络拦截器
 //                .addNetworkInterceptor(new MyOkhttpInterceptor())
                     .build();

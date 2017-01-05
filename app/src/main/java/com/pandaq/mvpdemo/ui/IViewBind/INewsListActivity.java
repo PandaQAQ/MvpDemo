@@ -1,4 +1,4 @@
-package com.pandaq.mvpdemo.view.IViewBind;
+package com.pandaq.mvpdemo.ui.IViewBind;
 
 import com.pandaq.mvpdemo.databeans.ZhihuStory;
 

@@ -1,4 +1,4 @@
-package com.pandaq.mvpdemo.view;
+package com.pandaq.mvpdemo.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -13,7 +13,7 @@ import com.pandaq.mvpdemo.R;
 import com.pandaq.mvpdemo.adapter.ZhihuStoryAdapter;
 import com.pandaq.mvpdemo.databeans.ZhihuStory;
 import com.pandaq.mvpdemo.presenter.NewsListPresenter;
-import com.pandaq.mvpdemo.view.IViewBind.INewsListActivity;
+import com.pandaq.mvpdemo.ui.IViewBind.INewsListActivity;
 
 import java.util.ArrayList;
 

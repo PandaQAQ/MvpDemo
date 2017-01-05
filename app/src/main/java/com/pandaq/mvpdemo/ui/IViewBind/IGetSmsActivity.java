@@ -1,4 +1,4 @@
-package com.pandaq.mvpdemo.view.IViewBind;
+package com.pandaq.mvpdemo.ui.IViewBind;
 
 /**
  * Created by PandaQ on 2016/12/13.

@@ -5,7 +5,7 @@ import com.pandaq.mvpdemo.biz.ZhihuDailyBiz;
 import com.pandaq.mvpdemo.databeans.ZhiHuDaily;
 import com.pandaq.mvpdemo.databeans.ZhihuStory;
 import com.pandaq.mvpdemo.utils.OnEventLister;
-import com.pandaq.mvpdemo.view.IViewBind.INewsListActivity;
+import com.pandaq.mvpdemo.ui.IViewBind.INewsListActivity;
 
 import java.util.ArrayList;
 

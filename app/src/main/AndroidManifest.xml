@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -21,9 +21,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.NewsListActivity"
+            android:name=".ui.NewsListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".view.GetSmsActivity"/>
+        <activity android:name=".ui.GetSmsActivity"/>
     </application>
 
 </manifest>

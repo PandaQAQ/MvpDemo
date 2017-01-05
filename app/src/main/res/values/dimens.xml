@@ -6,6 +6,7 @@
     <dimen name="news_image_height">70dp</dimen>
     <dimen name="news_item_height">86dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 
     <dimen name="text_size_big">20sp</dimen>

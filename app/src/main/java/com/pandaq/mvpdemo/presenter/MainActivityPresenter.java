@@ -4,17 +4,14 @@ import android.content.Context;
 
 import com.pandaq.mvpdemo.api.ApiManager;
 import com.pandaq.mvpdemo.enums.ClientType;
-import com.pandaq.mvpdemo.view.IViewBind.IMainActivity;
+import com.pandaq.mvpdemo.ui.IViewBind.IMainActivity;
 
 import java.io.IOException;
 
-import okhttp3.Response;
 import okhttp3.ResponseBody;
-import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**

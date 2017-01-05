@@ -1,4 +1,4 @@
-package com.pandaq.mvpdemo.view;
+package com.pandaq.mvpdemo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import com.pandaq.mvpdemo.R;
 import com.pandaq.mvpdemo.customview.MenuItem;
 import com.pandaq.mvpdemo.enums.ClientType;
 import com.pandaq.mvpdemo.presenter.MainActivityPresenter;
-import com.pandaq.mvpdemo.view.IViewBind.IMainActivity;
+import com.pandaq.mvpdemo.ui.IViewBind.IMainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,6 +1,6 @@
 package com.pandaq.mvpdemo.presenter;
 
-import com.pandaq.mvpdemo.view.IViewBind.IGetSmsActivity;
+import com.pandaq.mvpdemo.ui.IViewBind.IGetSmsActivity;
 
 import java.util.List;
 

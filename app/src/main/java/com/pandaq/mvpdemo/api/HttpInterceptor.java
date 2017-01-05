@@ -14,7 +14,7 @@ import okhttp3.Response;
  * email : 767807368@qq.com
  */
 
-public class MyOkhttpInterceptor implements Interceptor {
+public class HttpInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -23,7 +23,6 @@ public class MyOkhttpInterceptor implements Interceptor {
         String TAG_REQUEST = "request";
         Log.e(TAG_REQUEST, request.url().toString());
         Response response = chain.proceed(request);
-        System.out.println(response.body().toString());
         //打印返回的message
         return response;
     }
