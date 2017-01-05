@@ -1,6 +1,7 @@
 package com.pandaq.mvpdemo.adapter;
 
 import android.app.Activity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,13 +41,21 @@ public class ZhihuStoryAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.mNewsTitle.setText(mStories.get(position).getTitle());
         Glide.with(mActivity)
                 .load(mStories.get(position).getImages().get(0))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.mNewsImage);
+        if (mClicklistener != null) {
+            holder.mCvZhihuItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mClicklistener.onItemClick(mStories.get(position));
+                }
+            });
+        }
     }
 
     @Override
@@ -59,6 +68,8 @@ public class ZhihuStoryAdapter extends RecyclerView.Adapter {
         ImageView mNewsImage;
         @BindView(R.id.news_title)
         TextView mNewsTitle;
+        @BindView(R.id.cv_zhihu_item)
+        CardView mCvZhihuItem;
 
         ViewHolder(View view) {
             super(view);
@@ -70,5 +81,15 @@ public class ZhihuStoryAdapter extends RecyclerView.Adapter {
         int position = mStories.size();
         mStories.addAll(stories);
         notifyItemInserted(position);
+    }
+
+    public interface ItemClicklistener {
+        void onItemClick(ZhihuStory story);
+    }
+
+    private ItemClicklistener mClicklistener;
+
+    public void addOnItemClickListener(ItemClicklistener clicklistener) {
+        mClicklistener = clicklistener;
     }
 }

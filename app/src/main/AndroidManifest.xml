@@ -24,6 +24,8 @@
             android:name=".ui.NewsListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.GetSmsActivity"/>
+
+        <activity android:name=".ui.ZhihuStoryInfoActivity"/>
     </application>
 
 </manifest>

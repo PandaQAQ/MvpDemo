@@ -1,5 +1,6 @@
 package com.pandaq.mvpdemo.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NewsListActivity extends AppCompatActivity implements INewsListActivity {
+public class NewsListActivity extends AppCompatActivity implements INewsListActivity, ZhihuStoryAdapter.ItemClicklistener {
 
     ZhihuStoryAdapter mAdapter;
     @BindView(R.id.zhihudaily_list)
@@ -64,6 +65,7 @@ public class NewsListActivity extends AppCompatActivity implements INewsListActi
         } else {
             mAdapter = new ZhihuStoryAdapter(this, stories);
             mZhihudailyList.setAdapter(mAdapter);
+            mAdapter.addOnItemClickListener(this);
         }
     }
 
@@ -76,5 +78,16 @@ public class NewsListActivity extends AppCompatActivity implements INewsListActi
     @Override
     public void unSubcription() {
         mPresenter.unsubcription();
+    }
+
+    @Override
+    public void onItemClick(ZhihuStory story) {
+        //跳转到其他界面
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent(this, ZhihuStoryInfoActivity.class);
+        bundle.putString("title", story.getTitle());
+        bundle.putInt("id", story.getId());
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }
