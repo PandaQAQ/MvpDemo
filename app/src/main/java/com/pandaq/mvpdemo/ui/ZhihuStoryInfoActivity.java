@@ -8,10 +8,10 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.webkit.WebView;
@@ -26,7 +26,10 @@ import com.pandaq.mvpdemo.R;
 import com.pandaq.mvpdemo.databeans.ZhihuStoryContent;
 import com.pandaq.mvpdemo.presenter.ZhihuStoryInfoPresenter;
 import com.pandaq.mvpdemo.ui.IViewBind.IZhihuStoryInfoActivity;
+import com.pandaq.mvpdemo.utils.ColorUtils;
 import com.pandaq.mvpdemo.utils.DensityUtil;
+import com.pandaq.mvpdemo.utils.GlideUtils;
+import com.pandaq.mvpdemo.utils.ViewUtils;
 import com.pandaq.mvpdemo.utils.WebUtils;
 
 import butterknife.BindView;
@@ -118,6 +121,7 @@ public class ZhihuStoryInfoActivity extends AppCompatActivity implements IZhihuS
         Glide.with(this)
                 .load(zhihuStory.getImage())
                 .override(width, heigh)
+                .listener(new GlideLoadListener())
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .crossFade()
@@ -132,6 +136,68 @@ public class ZhihuStoryInfoActivity extends AppCompatActivity implements IZhihuS
         } else {
             String data = WebUtils.buildHtmlWithCss(mBody, scc, false);
             mZhihudailyWebview.loadDataWithBaseURL(WebUtils.BASE_URL, data, WebUtils.MIME_TYPE, WebUtils.ENCODING, WebUtils.FAIL_URL);
+        }
+    }
+
+    class GlideLoadListener implements RequestListener<String, GlideDrawable> {
+
+        @Override
+        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+            final Bitmap bitmap = GlideUtils.getBitmap((GlideDrawable) resource);
+            final int twentyFourDip = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                    24, ZhihuStoryInfoActivity.this.getResources().getDisplayMetrics());
+            assert bitmap != null;
+            Palette.from(bitmap)
+                    .maximumColorCount(3)
+                    .clearFilters()
+                    .setRegion(0, 0, bitmap.getWidth() - 1, twentyFourDip)
+                    .generate(new Palette.PaletteAsyncListener() {
+                        @Override
+                        public void onGenerated(Palette palette) {
+                            boolean isDark;
+                            int lightness = ColorUtils.isDark(palette);
+                            if (lightness == ColorUtils.LIGHTNESS_UNKNOWN) {
+                                isDark = ColorUtils.isDark(bitmap, bitmap.getWidth() / 2, 0);
+                            } else {
+                                isDark = lightness == ColorUtils.IS_DARK;
+                            }
+                            // color the status bar. Set a complementary dark color on L,
+                            // light or dark color on M (with matching status bar icons)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                int statusBarColor = getWindow().getStatusBarColor();
+                                final Palette.Swatch topColor = ColorUtils.getMostPopulousSwatch(palette);
+                                if (topColor != null && (isDark || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
+                                    statusBarColor = ColorUtils.scrimify(topColor.getRgb(), isDark, SCRIM_ADJUSTMENT);
+                                    // set a light status bar on M+
+                                    if (!isDark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        ViewUtils.setLightStatusBar(mStoryImg);
+                                    }
+                                }
+                                if (statusBarColor != getWindow().getStatusBarColor()) {
+                                    ValueAnimator statusBarColorAnim = ValueAnimator.ofArgb(
+                                            getWindow().getStatusBarColor(), statusBarColor);
+                                    statusBarColorAnim.addUpdateListener(new ValueAnimator
+                                            .AnimatorUpdateListener() {
+                                        @Override
+                                        public void onAnimationUpdate(ValueAnimator animation) {
+                                            getWindow().setStatusBarColor((int) animation.getAnimatedValue());
+                                        }
+                                    });
+                                    statusBarColorAnim.setDuration(1000L);
+                                    statusBarColorAnim.setInterpolator(
+                                            new AccelerateInterpolator());
+                                    statusBarColorAnim.start();
+                                }
+                            }
+                        }
+                    });
+            return false;
+
         }
     }
 
