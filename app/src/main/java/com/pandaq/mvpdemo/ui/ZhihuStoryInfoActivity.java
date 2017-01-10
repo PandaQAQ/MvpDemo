@@ -2,6 +2,7 @@ package com.pandaq.mvpdemo.ui;
 
 import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -148,28 +149,34 @@ public class ZhihuStoryInfoActivity extends AppCompatActivity implements IZhihuS
 
         @Override
         public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-            final Bitmap bitmap = GlideUtils.getBitmap((GlideDrawable) resource);
+            final Bitmap bitmap = GlideUtils.getBitmap(resource);
             final int twentyFourDip = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                     24, ZhihuStoryInfoActivity.this.getResources().getDisplayMetrics());
             assert bitmap != null;
             Palette.from(bitmap)
-                    .maximumColorCount(3)
+                    //设置最大颜色数
+                    .maximumColorCount(16)
+                    //去除所有的Filter
                     .clearFilters()
+                    //设置用于计算调色板的位图区域
                     .setRegion(0, 0, bitmap.getWidth() - 1, twentyFourDip)
+                    //计算Palette
                     .generate(new Palette.PaletteAsyncListener() {
                         @Override
                         public void onGenerated(Palette palette) {
                             boolean isDark;
                             int lightness = ColorUtils.isDark(palette);
+                            //判断是否是黑色主题（其实Demo中用不到，因为没做主题切换）
                             if (lightness == ColorUtils.LIGHTNESS_UNKNOWN) {
                                 isDark = ColorUtils.isDark(bitmap, bitmap.getWidth() / 2, 0);
                             } else {
                                 isDark = lightness == ColorUtils.IS_DARK;
                             }
-                            // color the status bar. Set a complementary dark color on L,
-                            // light or dark color on M (with matching status bar icons)
+                            //判断当前系统版本是否 API>21
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 int statusBarColor = getWindow().getStatusBarColor();
+                                mToolbarLayout.setContentScrimColor(statusBarColor);
+                                // 获取主色调
                                 final Palette.Swatch topColor = ColorUtils.getMostPopulousSwatch(palette);
                                 if (topColor != null && (isDark || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
                                     statusBarColor = ColorUtils.scrimify(topColor.getRgb(), isDark, SCRIM_ADJUSTMENT);
@@ -178,6 +185,7 @@ public class ZhihuStoryInfoActivity extends AppCompatActivity implements IZhihuS
                                         ViewUtils.setLightStatusBar(mStoryImg);
                                     }
                                 }
+                                //设置渐显动画，替换状态栏颜色
                                 if (statusBarColor != getWindow().getStatusBarColor()) {
                                     ValueAnimator statusBarColorAnim = ValueAnimator.ofArgb(
                                             getWindow().getStatusBarColor(), statusBarColor);
@@ -188,6 +196,7 @@ public class ZhihuStoryInfoActivity extends AppCompatActivity implements IZhihuS
                                             getWindow().setStatusBarColor((int) animation.getAnimatedValue());
                                         }
                                     });
+                                    //设置转换颜色的动画时间
                                     statusBarColorAnim.setDuration(1000L);
                                     statusBarColorAnim.setInterpolator(
                                             new AccelerateInterpolator());
