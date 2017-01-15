@@ -29,4 +29,8 @@
         <!--文字的颜色-->
         <attr name="textColor"/>
     </declare-styleable>
+
+    <declare-styleable name="LoopScaleView">
+        <attr name="maxShowItem" format="integer"/>
+    </declare-styleable>
 </resources>

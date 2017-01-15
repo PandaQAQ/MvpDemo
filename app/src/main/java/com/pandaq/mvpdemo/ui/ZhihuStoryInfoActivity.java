@@ -67,9 +67,8 @@ public class ZhihuStoryInfoActivity extends AppCompatActivity implements IZhihuS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zhihu_story_info);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        mToolbarLayout.setTitle("知乎日报");
+        setSupportActionBar(mToolbar);
+        mToolbarLayout.setTitle(getString(R.string.zhihu_title));
         initView();
         initData();
     }

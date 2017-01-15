@@ -26,6 +26,7 @@
         <activity android:name=".ui.GetSmsActivity"/>
 
         <activity android:name=".ui.ZhihuStoryInfoActivity"/>
+        <activity android:name=".ui.WidgetActivity"/>
     </application>
 
 </manifest>

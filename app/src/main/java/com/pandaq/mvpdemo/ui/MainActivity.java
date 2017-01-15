@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.tonews, R.id.https_friendly, R.id.https_unfriendly, R.id.send_sms})
+    @OnClick({R.id.tonews, R.id.https_friendly, R.id.https_unfriendly, R.id.send_sms,R.id.wheel})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -57,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
                 break;
             case R.id.send_sms:
                 intent = new Intent(this, GetSmsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.wheel:
+                intent = new Intent(this, WidgetActivity.class);
                 startActivity(intent);
                 break;
         }
