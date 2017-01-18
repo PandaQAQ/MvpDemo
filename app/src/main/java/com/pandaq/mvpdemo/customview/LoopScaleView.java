@@ -22,6 +22,10 @@ import android.widget.Scroller;
 
 import com.pandaq.mvpdemo.R;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by PandaQ on 2017/1/13.
  * email : 767807368@qq.com
@@ -68,8 +72,10 @@ public class LoopScaleView extends View {
     private int scaleTextSize = 24;
     //手势解析器
     private GestureDetector mGestureDetector;
-    // 是否在滚动
-    private boolean isViewScrolling;
+    //处理惯性滚动
+    private Scroller mScroller;
+    //惯性滑动时用于查询位置状态
+    private static ScheduledExecutorService mScheduler;
 
     public LoopScaleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -85,6 +91,8 @@ public class LoopScaleView extends View {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.LoopScaleView);
         showItemSize = ta.getInteger(R.styleable.LoopScaleView_maxShowItem, 3);
         ta.recycle();
+        mScroller = new Scroller(context);
+        mScheduler = Executors.newScheduledThreadPool(2);
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(dm);
@@ -148,14 +156,7 @@ public class LoopScaleView extends View {
             case MotionEvent.ACTION_UP:
                 Log.i(TAG, "action_up");
                 //手指抬起是计算出当前滑到第几个位置
-                int currentItem = (int) (currLocation / scaleDistance);
-                float fraction = currLocation - currentItem * currentItem;
-                if (fraction > 0.5 * scaleDistance) {
-                    currLocation = (currentItem + 1) * scaleDistance;
-                } else {
-                    currLocation = currentItem * scaleDistance;
-                }
-                invalidate();
+                getIntegerPosition();
                 break;
         }
         mGestureDetector.onTouchEvent(event);
@@ -173,21 +174,46 @@ public class LoopScaleView extends View {
         }
 
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            if (!isViewScrolling) {
-                isViewScrolling = true;
-            }
             scrollView(distanceX);
             return true;
         }
 
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            System.out.println(velocityX);
+            int minX = 0;
+            int maxX = getItemsCount() * scaleDistance;
+            mScroller.fling((int) currLocation, 0, (int) -(velocityX / 2), 0, minX, maxX, 0, 0);
+//            //每100毫秒检查一次状态，使用Scheduler 有BUG 暂时先用handler解决问题
+//            mScheduler.scheduleAtFixedRate(locationChecker, 100, 100, TimeUnit.MILLISECONDS);
+            setNextMessage(0);
             return true;
         }
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
             return super.onSingleTapUp(e);
+        }
+    };
+
+    /**
+     * 实时通知惯性滚动的状态
+     */
+    private Runnable locationChecker = new Runnable() {
+        @Override
+        public void run() {
+            System.out.println("别闹执行任务呢");
+            if (!mScroller.isFinished()) { //如果滑动尚未结束，则不断得到新的位置并更新视图
+                System.out.println("可以执行任务");
+                mScroller.computeScrollOffset();
+                int currX = mScroller.getCurrX();
+                float delta = currLocation - currX;
+                currLocation = currX;
+                if (delta != 0) {
+                    System.out.println(delta);
+                    scrollView(delta);
+                }
+            } else {
+                mScheduler.shutdownNow();
+            }
         }
     };
 
@@ -239,21 +265,19 @@ public class LoopScaleView extends View {
      * @param distance 滑动的距离
      */
     private void scrollView(float distance) {
-        if (isViewScrolling) {
-
-        }
         currLocation += distance;
         //设置新的位置
         setCurrLocation(currLocation);
         //设置完成后清除偏移量
     }
 
-    /**
-     * 停止滑动View
-     */
-    private void finishScrolling() {
-        if (isViewScrolling) {
-            isViewScrolling = false;
+    private void getIntegerPosition() {
+        int currentItem = (int) (currLocation / scaleDistance);
+        float fraction = currLocation - currentItem * currentItem;
+        if (fraction > 0.5 * scaleDistance) {
+            currLocation = (currentItem + 1) * scaleDistance;
+        } else {
+            currLocation = currentItem * scaleDistance;
         }
         invalidate();
     }
@@ -396,4 +420,29 @@ public class LoopScaleView extends View {
         this.oneItemValue = oneItemValue;
         invalidate();
     }
+
+
+    private void setNextMessage(int message) {
+        animationHandler.removeMessages(0);
+        animationHandler.sendEmptyMessage(message);
+    }
+
+    // 动画处理
+    private Handler animationHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            mScroller.computeScrollOffset();
+            int currX = mScroller.getCurrX();
+            float delta = currX - currLocation;
+            if (delta != 0) {
+                scrollView(delta);
+            }
+            // 滚动还没有完成，到最后，完成手动
+            if (!mScroller.isFinished()) {
+                animationHandler.sendEmptyMessage(msg.what);
+            } else {
+                //到整数刻度
+                getIntegerPosition();
+            }
+        }
+    };
 }
