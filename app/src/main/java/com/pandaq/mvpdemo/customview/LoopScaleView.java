@@ -8,13 +8,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Scroller;
 
 import com.pandaq.mvpdemo.R;
 
@@ -25,6 +29,7 @@ import com.pandaq.mvpdemo.R;
  */
 
 public class LoopScaleView extends View {
+    private final static String TAG = "com.pandaq.mvpdemo";
     //画底线的画笔
     private Paint paint;
     //屏幕宽度
@@ -44,11 +49,11 @@ public class LoopScaleView extends View {
     //设置屏幕宽度内最多显示的大刻度数，默认为3个
     private int showItemSize = 6;
     //标尺开始位置
-    private int currLocation = 0;
+    private float currLocation = 0;
     //刻度表的最大值，默认为250
     private int maxValue = 200;
     //一个刻度表示的值的大小
-    private int oneItemValue=1;
+    private int oneItemValue = 1;
     //设置刻度线间宽度,大小由 showItemSize确定
     private int scaleDistance;
     //刻度高度，默认值为40
@@ -63,6 +68,8 @@ public class LoopScaleView extends View {
     private int scaleTextSize = 24;
     //手势解析器
     private GestureDetector mGestureDetector;
+    // 是否在滚动
+    private boolean isViewScrolling;
 
     public LoopScaleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -78,7 +85,6 @@ public class LoopScaleView extends View {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.LoopScaleView);
         showItemSize = ta.getInteger(R.styleable.LoopScaleView_maxShowItem, 3);
         ta.recycle();
-
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(dm);
@@ -86,8 +92,8 @@ public class LoopScaleView extends View {
         //一个小刻度的宽度（十进制，每5个小刻度为一个大刻度）
         scaleDistance = (screenWidth / (showItemSize * 5));
         //尺子长度总的个数*一个的宽度
-        viewWidth = maxValue / oneItemValue * scaleDistance+screenWidth/2;
-        mGestureDetector = new GestureDetector(context,gestureListener);
+        viewWidth = maxValue / oneItemValue * scaleDistance + screenWidth / 2;
+        mGestureDetector = new GestureDetector(context, gestureListener);
     }
 
     @Override
@@ -135,6 +141,23 @@ public class LoopScaleView extends View {
     // 拦截屏幕滑动事件
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                Log.i(TAG, "action_dpwn");
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.i(TAG, "action_up");
+                //手指抬起是计算出当前滑到第几个位置
+                int currentItem = (int) (currLocation / scaleDistance);
+                float fraction = currLocation - currentItem * currentItem;
+                if (fraction > 0.5 * scaleDistance) {
+                    currLocation = (currentItem + 1) * scaleDistance;
+                } else {
+                    currLocation = currentItem * scaleDistance;
+                }
+                invalidate();
+                break;
+        }
         mGestureDetector.onTouchEvent(event);
         return true;
     }
@@ -144,28 +167,26 @@ public class LoopScaleView extends View {
      */
     private GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
 
-        public boolean onScroll(MotionEvent e1, MotionEvent e2,float distanceX, float distanceY) {
-//            if (!isScrollingPerformed) {
-//                isScrollingPerformed = true;
-//            }
-//            doScroll(-distanceX);
-//            invalidate();
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            if (!isViewScrolling) {
+                isViewScrolling = true;
+            }
+            scrollView(distanceX);
             return true;
         }
 
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-//            lastScrollX = getCurrentItem() * getItemWidth() + scrollingOffset;
-//            int maxX = getItemsCount()
-//                    * getItemWidth();
-//            int minX = 0;
-//            scroller.fling(lastScrollX, 0, (int) (-velocityX / 1.5), 0, minX, maxX, 0, 0);
-//            setNextMessage(MESSAGE_SCROLL);
+            System.out.println(velocityX);
             return true;
         }
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-
             return super.onSingleTapUp(e);
         }
     };
@@ -179,7 +200,7 @@ public class LoopScaleView extends View {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStrokeWidth(scaleWidth);
         //计算游标开始绘制的位置
-        float startLocation = (screenWidth / 2) - ((scaleDistance * (currLocation / oneItemValue)));
+        float startLocation = (screenWidth / 2) - (currLocation / oneItemValue);
         for (int i = 0; i < maxValue / oneItemValue; i++) {
             //判断当前刻度是否小于当前刻度
             if (i * oneItemValue <= currLocation) {
@@ -208,8 +229,42 @@ public class LoopScaleView extends View {
             paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setStyle(Paint.Style.FILL);
             paint.setColor(getResources().getColor(R.color.trans_green_5b00796b));
-            canvas.drawRect(startLocation, viewHeight - scaleHeight / 3, startLocation + currLocation / oneItemValue * scaleDistance, viewHeight, paint);
+            canvas.drawRect(startLocation, viewHeight - scaleHeight / 3, startLocation + currLocation, viewHeight, paint);
         }
+    }
+
+    /**
+     * 滑动View
+     *
+     * @param distance 滑动的距离
+     */
+    private void scrollView(float distance) {
+        if (isViewScrolling) {
+
+        }
+        currLocation += distance;
+        //设置新的位置
+        setCurrLocation(currLocation);
+        //设置完成后清除偏移量
+    }
+
+    /**
+     * 停止滑动View
+     */
+    private void finishScrolling() {
+        if (isViewScrolling) {
+            isViewScrolling = false;
+        }
+        invalidate();
+    }
+
+    /**
+     * 获取一共有多少个刻度
+     *
+     * @return
+     */
+    public int getItemsCount() {
+        return maxValue / oneItemValue;
     }
 
     /**
@@ -244,6 +299,7 @@ public class LoopScaleView extends View {
 
     /**
      * 设置刻度线的宽度
+     *
      * @param scaleWidth 刻度线的宽度
      */
     public void setScaleWidth(int scaleWidth) {
@@ -253,6 +309,7 @@ public class LoopScaleView extends View {
 
     /**
      * 设置屏幕宽度内大Item的数量
+     *
      * @param showItemSize 屏幕宽度内显示的大 item数量
      */
     public void setShowItemSize(int showItemSize) {
@@ -262,23 +319,27 @@ public class LoopScaleView extends View {
 
     /**
      * 设置当前游标所在的值
+     *
      * @param currLocation 当前游标所在的值
      */
-    public void setCurrLocation(int currLocation) {
+    public void setCurrLocation(float currLocation) {
         this.currLocation = currLocation;
         invalidate();
     }
 
     /**
      * 设置刻度线的高度
+     *
      * @param scaleHeight
      */
     public void setScaleHeight(float scaleHeight) {
         this.scaleHeight = scaleHeight;
         invalidate();
     }
+
     /**
      * 设置已选择区域的背景颜色
+     *
      * @param scaleSelectColor 已选区域的背景色
      */
     public void setScaleSelectColor(int scaleSelectColor) {
@@ -288,6 +349,7 @@ public class LoopScaleView extends View {
 
     /**
      * 设置未选择区域的背景颜色
+     *
      * @param scaleUnSelectColor 未选区域的背景色
      */
     public void setScaleUnSelectColor(int scaleUnSelectColor) {
@@ -297,8 +359,9 @@ public class LoopScaleView extends View {
 
     /**
      * 设置刻度表上文字的颜色
+     *
      * @param scaleTextColor 文字颜色id
-      */
+     */
     public void setScaleTextColor(int scaleTextColor) {
         this.scaleTextColor = scaleTextColor;
         invalidate();
@@ -306,6 +369,7 @@ public class LoopScaleView extends View {
 
     /**
      * 设置刻度标上的文字的大小
+     *
      * @param scaleTextSize 文字大小
      */
     public void setScaleTextSize(int scaleTextSize) {
@@ -315,6 +379,7 @@ public class LoopScaleView extends View {
 
     /**
      * 设置刻度的最大值
+     *
      * @param maxValue 刻度的最大值
      */
     public void setMaxValue(int maxValue) {
@@ -324,6 +389,7 @@ public class LoopScaleView extends View {
 
     /**
      * 设置 一刻度所代表的的值的大小
+     *
      * @param oneItemValue
      */
     public void setOneItemValue(int oneItemValue) {
