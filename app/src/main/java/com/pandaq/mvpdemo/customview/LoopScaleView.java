@@ -24,7 +24,6 @@ import com.pandaq.mvpdemo.R;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by PandaQ on 2017/1/13.
@@ -96,7 +95,7 @@ public class LoopScaleView extends View {
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(dm);
-        screenWidth = dm.widthPixels;
+        screenWidth = dm.widthPixels - getPaddingEnd() - getPaddingStart();
         //一个小刻度的宽度（十进制，每5个小刻度为一个大刻度）
         scaleDistance = (screenWidth / (showItemSize * 5));
         //尺子长度总的个数*一个的宽度
@@ -112,6 +111,7 @@ public class LoopScaleView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        canvas.clipRect(getPaddingStart(), getPaddingTop(), getWidth() - getPaddingRight(), viewHeight - getPaddingBottom());
         drawLine(canvas);
         drawScale(canvas);
         drawCursor(canvas);
@@ -126,7 +126,7 @@ public class LoopScaleView extends View {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStrokeWidth(3);
         paint.setColor(scaleUnSelectColor);
-        canvas.drawLine(0, viewHeight, viewWidth, viewHeight, paint);
+        canvas.drawLine(getPaddingStart(), viewHeight - getPaddingBottom(), viewWidth - getPaddingEnd(), viewHeight - getPaddingBottom(), paint);
     }
 
     private void drawCursor(Canvas canvas) {
@@ -134,15 +134,57 @@ public class LoopScaleView extends View {
             paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setStrokeWidth(cursorWidth);
             paint.setColor(cursorColor);
-            canvas.drawLine(screenWidth / 2, 0, screenWidth / 2, 2 * viewHeight / 5, paint);
+            canvas.drawLine(screenWidth / 2, getPaddingTop() - getPaddingBottom(), screenWidth / 2, viewHeight - getPaddingBottom(), paint);
         } else { //绘制标识图片
             paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             float left = (screenWidth - cursorMap.getWidth()) / 2;
-            float top = 0;
+            float top = getPaddingTop();
             float right = (screenWidth + cursorMap.getWidth()) / 2;
-            float bottom = 2 * viewHeight / 5;
+            float bottom = 2 * viewHeight / 5 - getPaddingBottom();
             RectF rectF = new RectF(left, top, right, bottom);
             canvas.drawBitmap(cursorMap, null, rectF, paint);
+        }
+    }
+
+    /**
+     * 绘制刻度线
+     *
+     * @param canvas 绘制的画布
+     */
+    private void drawScale(Canvas canvas) {
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setStrokeWidth(scaleWidth);
+        //计算游标开始绘制的位置
+        float startLocation = (screenWidth / 2) - (currLocation / oneItemValue);
+        for (int i = 0; i < maxValue / oneItemValue; i++) {
+            //是否小于当前刻度
+            if (i * oneItemValue <= currLocation) {
+                paint.setColor(scaleSelectColor);
+            } else {
+                paint.setColor(scaleUnSelectColor);
+            }
+            float location = startLocation + i * scaleDistance;
+            if (i % 10 == 0) {
+                canvas.drawLine(location, viewHeight - scaleHeight - getPaddingBottom(), location, viewHeight - getPaddingBottom(), paint);
+                Paint paintText = new Paint(Paint.ANTI_ALIAS_FLAG);
+                paintText.setTextSize(scaleTextSize);
+                if (i * oneItemValue <= currLocation) {
+                    paintText.setColor(scaleSelectColor);
+                } else {
+                    paintText.setColor(scaleTextColor);
+                }
+                String drawStr = oneItemValue * i + "";
+                Rect bounds = new Rect();
+                paintText.getTextBounds(drawStr, 0, drawStr.length(), bounds);
+                canvas.drawText(drawStr, location - bounds.width() / 2, viewHeight - (scaleHeight + 5) - getPaddingBottom(), paintText);
+            } else {
+                canvas.drawLine(location, viewHeight - scaleHeight / 2 - getPaddingBottom(), location, viewHeight - getPaddingBottom(), paint);
+            }
+            //绘制选中的背景
+            paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(getResources().getColor(R.color.trans_green_5b00796b));
+            canvas.drawRect(startLocation, viewHeight - scaleHeight - getPaddingBottom() / 3, startLocation + currLocation, viewHeight - getPaddingBottom(), paint);
         }
     }
 
@@ -217,47 +259,6 @@ public class LoopScaleView extends View {
         }
     };
 
-    /**
-     * 绘制刻度线
-     *
-     * @param canvas 绘制的画布
-     */
-    private void drawScale(Canvas canvas) {
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setStrokeWidth(scaleWidth);
-        //计算游标开始绘制的位置
-        float startLocation = (screenWidth / 2) - (currLocation / oneItemValue);
-        for (int i = 0; i < maxValue / oneItemValue; i++) {
-            //判断当前刻度是否小于当前刻度
-            if (i * oneItemValue <= currLocation) {
-                paint.setColor(scaleSelectColor);
-            } else {
-                paint.setColor(scaleUnSelectColor);
-            }
-            float location = startLocation + i * scaleDistance;
-            if (i % 10 == 0) {
-                canvas.drawLine(location, viewHeight - scaleHeight, location, viewHeight, paint);
-                Paint paintText = new Paint(Paint.ANTI_ALIAS_FLAG);
-                paintText.setTextSize(scaleTextSize);
-                if (i * oneItemValue <= currLocation) {
-                    paintText.setColor(scaleSelectColor);
-                } else {
-                    paintText.setColor(scaleTextColor);
-                }
-                String drawStr = oneItemValue * i + "";
-                Rect bounds = new Rect();
-                paintText.getTextBounds(drawStr, 0, drawStr.length(), bounds);
-                canvas.drawText(drawStr, location - bounds.width() / 2, viewHeight - (scaleHeight + 5), paintText);
-            } else {
-                canvas.drawLine(location, viewHeight - scaleHeight / 2, location, viewHeight, paint);
-            }
-            //绘制选中的背景
-            paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(getResources().getColor(R.color.trans_green_5b00796b));
-            canvas.drawRect(startLocation, viewHeight - scaleHeight / 3, startLocation + currLocation, viewHeight, paint);
-        }
-    }
 
     /**
      * 滑动View

@@ -9,6 +9,9 @@
 
     <com.pandaq.mvpdemo.customview.LoopScaleView
         android:layout_width="match_parent"
+        android:background="@drawable/loopscaleview_bg"
+        android:padding="@dimen/margin_8dp"
+        android:layout_margin="16dp"
         android:layout_height="50dp"
         app:maxShowItem="6"/>
 </LinearLayout>
