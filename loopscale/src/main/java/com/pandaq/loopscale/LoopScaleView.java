@@ -1,4 +1,4 @@
-package com.pandaq.mvpdemo.customview;
+package com.pandaq.loopscale;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -18,8 +18,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
 
-import com.pandaq.mvpdemo.R;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -30,7 +28,7 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 
 public class LoopScaleView extends View {
-    private final static String TAG = "com.pandaq.mvpdemo";
+    private final static String TAG = "com.pandaq.loopscale";
     //画底线的画笔
     private Paint paint;
     //控件显示宽度

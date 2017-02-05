@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--布局中的文字-->
     <attr name="text" format="string"/>
     <!--文字的大小-->
@@ -30,7 +29,4 @@
         <attr name="textColor"/>
     </declare-styleable>
 
-    <declare-styleable name="LoopScaleView">
-        <attr name="maxShowItem" format="integer"/>
-    </declare-styleable>
 </resources>

@@ -44,4 +44,6 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:palette-v7:25.1.0'
+    //lib工程
+    compile 'com.pandaq:loopscale:1.0.0'
 }
