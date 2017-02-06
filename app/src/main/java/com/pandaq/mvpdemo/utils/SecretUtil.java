@@ -1,6 +1,6 @@
 package com.pandaq.mvpdemo.utils;
 
-import com.pandaq.mvpdemo.StringResouce;
+import com.pandaq.mvpdemo.Constants;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -28,10 +28,10 @@ public class SecretUtil {
             return getString(result);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return StringResouce.NOSUCHALGORITHM;
+            return Constants.NOSUCHALGORITHM;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            return StringResouce.UNSUPPENCODING;
+            return Constants.UNSUPPENCODING;
         }
     }
 

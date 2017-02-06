@@ -28,7 +28,7 @@ import butterknife.OnClick;
  * email : 767807368@qq.com
  */
 
-public class GetSmsActivity extends AppCompatActivity implements IGetSmsActivity {
+public class GetSmsActivity extends BaseActivity implements IGetSmsActivity {
     @BindView(R.id.et_send_sms)
     EditText mEtSendSms;
     @BindView(R.id.bt_send)

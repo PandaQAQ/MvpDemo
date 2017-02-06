@@ -15,13 +15,14 @@ import com.pandaq.mvpdemo.adapter.ZhihuStoryAdapter;
 import com.pandaq.mvpdemo.databeans.ZhihuStory;
 import com.pandaq.mvpdemo.presenter.NewsListPresenter;
 import com.pandaq.mvpdemo.ui.IViewBind.INewsListActivity;
+import com.pandaq.mvpdemo.utils.NetWorkUtil;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NewsListActivity extends AppCompatActivity implements INewsListActivity, ZhihuStoryAdapter.ItemClicklistener {
+public class NewsListActivity extends BaseActivity implements INewsListActivity, ZhihuStoryAdapter.ItemClicklistener {
 
     ZhihuStoryAdapter mAdapter;
     @BindView(R.id.zhihudaily_list)
@@ -44,7 +45,12 @@ public class NewsListActivity extends AppCompatActivity implements INewsListActi
 
     @Override
     public void loadData() {
-        mPresenter.loadDataByRxandroidRetrofit();
+        //无网络环境的时候读取缓存，有网的时候读取网络数据
+        if (NetWorkUtil.isNetWorkAvailable(this)) {
+            mPresenter.loadDataByRxandroidRetrofit();
+        } else {
+            mPresenter.loadCache();
+        }
     }
 
     @Override

@@ -22,7 +22,7 @@ import butterknife.OnClick;
  * email : 767807368@qq.com
  */
 
-public class MainActivity extends AppCompatActivity implements IMainActivity {
+public class MainActivity extends BaseActivity implements IMainActivity {
 
     @BindView(R.id.tonews)
     MenuItem mTonews;

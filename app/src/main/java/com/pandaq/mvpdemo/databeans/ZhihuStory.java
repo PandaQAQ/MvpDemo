@@ -1,5 +1,6 @@
 package com.pandaq.mvpdemo.databeans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * email : 767807368@qq.com
  */
 
-public class ZhihuStory {
+public class ZhihuStory implements Serializable{
     private int type;
     private int id;
     private String ga_prefix;

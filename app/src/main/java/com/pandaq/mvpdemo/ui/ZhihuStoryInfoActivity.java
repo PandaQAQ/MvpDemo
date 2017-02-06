@@ -41,7 +41,7 @@ import butterknife.ButterKnife;
  * email : 767807368@qq.com
  * 知乎日报打开详情页面
  */
-public class ZhihuStoryInfoActivity extends AppCompatActivity implements IZhihuStoryInfoActivity {
+public class ZhihuStoryInfoActivity extends BaseActivity implements IZhihuStoryInfoActivity {
 
     private static final float SCRIM_ADJUSTMENT = 0.075f;
     @BindView(R.id.toolbar)

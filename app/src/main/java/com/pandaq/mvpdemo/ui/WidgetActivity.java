@@ -11,7 +11,7 @@ import com.pandaq.mvpdemo.R;
  * email : 767807368@qq.com
  */
 
-public class WidgetActivity extends AppCompatActivity {
+public class WidgetActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

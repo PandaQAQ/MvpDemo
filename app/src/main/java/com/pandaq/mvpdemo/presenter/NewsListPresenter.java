@@ -1,14 +1,29 @@
 package com.pandaq.mvpdemo.presenter;
 
+import com.jakewharton.disklrucache.DiskLruCache;
+import com.pandaq.mvpdemo.Constants;
+import com.pandaq.mvpdemo.MyApplication;
 import com.pandaq.mvpdemo.api.ApiManager;
 import com.pandaq.mvpdemo.biz.ZhihuDailyBiz;
 import com.pandaq.mvpdemo.databeans.ZhiHuDaily;
 import com.pandaq.mvpdemo.databeans.ZhihuStory;
+import com.pandaq.mvpdemo.utils.DiskCacheUtil;
 import com.pandaq.mvpdemo.utils.OnEventLister;
 import com.pandaq.mvpdemo.ui.IViewBind.INewsListActivity;
+import com.pandaq.mvpdemo.utils.SecretUtil;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -73,7 +88,12 @@ public class NewsListPresenter extends BasePresenter {
                 .map(new Func1<ZhiHuDaily, ArrayList<ZhihuStory>>() {
                     @Override
                     public ArrayList<ZhihuStory> call(ZhiHuDaily zhiHuDaily) {
-                        return zhiHuDaily.getStories();
+                        ArrayList<ZhihuStory> stories = zhiHuDaily.getStories();
+                        if (stories != null) {
+                            //加载成功后将数据缓存倒本地(demo 中只有一页，实际使用时根据需求选择是否进行缓存)
+                            makeCache(zhiHuDaily.getStories());
+                        }
+                        return stories;
                     }
                 })
                 //设置事件触发在非主线程
@@ -100,4 +120,46 @@ public class NewsListPresenter extends BasePresenter {
         addSubscription(subscription);
     }
 
+    private void makeCache(ArrayList<ZhihuStory> stories) {
+        File cacheFile = DiskCacheUtil.getCacheFile(MyApplication.getContext(), Constants.ZHIHUCACHE);
+        DiskLruCache diskLruCache = DiskCacheUtil.instance(cacheFile);
+        try {
+            //使用MD5加密后的字符串作为key，避免key中有非法字符
+            String key = SecretUtil.getMD5Result(Constants.ZHIHUSTORY_KEY);
+            DiskLruCache.Editor editor = diskLruCache.edit(key);
+            if (editor != null) {
+                ObjectOutputStream outputStream = new ObjectOutputStream(editor.newOutputStream(0));
+                outputStream.writeObject(stories);
+                outputStream.close();
+                editor.commit();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadCache() {
+        File cacheFile = DiskCacheUtil.getCacheFile(MyApplication.getContext(), Constants.ZHIHUCACHE);
+        DiskLruCache diskLruCache = DiskCacheUtil.instance(cacheFile);
+        String key = SecretUtil.getMD5Result(Constants.ZHIHUSTORY_KEY);
+        try {
+            DiskLruCache.Snapshot snapshot = diskLruCache.get(key);
+            if (snapshot != null) {
+                InputStream in = snapshot.getInputStream(0);
+                ObjectInputStream ois = new ObjectInputStream(in);
+                try {
+                    ArrayList<ZhihuStory> stories = (ArrayList<ZhihuStory>) ois.readObject();
+                    if (stories != null) {
+                        mINewsListActivity.getDataSuccess(stories);
+                    } else {
+                        mINewsListActivity.getDataFail("", "无数据");
+                    }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
