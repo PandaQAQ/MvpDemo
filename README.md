@@ -209,7 +209,7 @@ MVP模式能降低各个层的耦合度，提高代码的可读性和项目的�
   [1]: http://oddbiem8l.bkt.clouddn.com/mvp.png
   [2]: http://oddbiem8l.bkt.clouddn.com/project.png
   [3]: http://oddbiem8l.bkt.clouddn.com/mvp%E4%B8%80%E4%B8%AA%E8%AF%B7%E6%B1%82%E7%9A%84%E8%BF%87%E7%A8%8B.png
-  [4]: https://github.com/PandaQAQ/MvpDemo
+  [4]: http://www.jianshu.com/u/aa53f5d59037
   [5]: http://www.jianshu.com/p/a7635e39c5ac
   [6]: http://www.jianshu.com/p/cc7ae2f96b64
   [7]: http://www.jianshu.com/p/92ae9fb83e74
