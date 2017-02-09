@@ -9,7 +9,7 @@
     android:padding="16dp">
 
     <com.pandaq.loopscaleview.LoopScaleView
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         app:maxShowItem="6"/>
 </LinearLayout>
