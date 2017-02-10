@@ -45,7 +45,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:palette-v7:25.1.1'
     //自定义View 库
-    compile 'com.pandaq:loopscale:1.0.0'
+    compile 'com.pandaq:loopscale:1.0.1'
     //缓存 DiskLruCache
     compile 'com.jakewharton:disklrucache:2.0.2'
 }

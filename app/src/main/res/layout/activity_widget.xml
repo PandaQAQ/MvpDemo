@@ -8,8 +8,15 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_value"/>
     <com.pandaq.loopscaleview.LoopScaleView
-        android:layout_width="100dp"
+        android:id="@+id/lsv_scale"
+        android:layout_width="match_parent"
+        android:background="@drawable/loopscaleview_bg"
+        android:padding="@dimen/margin_8dp"
         android:layout_height="50dp"
         app:maxShowItem="6"/>
 </LinearLayout>
