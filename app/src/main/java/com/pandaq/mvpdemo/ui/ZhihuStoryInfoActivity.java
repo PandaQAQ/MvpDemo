@@ -186,6 +186,12 @@ public class ZhihuStoryInfoActivity extends BaseActivity implements IZhihuStoryI
                                 }
                                 //设置渐显动画，替换状态栏颜色
                                 if (statusBarColor != getWindow().getStatusBarColor()) {
+                                    mToolbarLayout.setContentScrimColor(statusBarColor);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        mToolbar.setBackgroundColor(getResources().getColor(R.color.trans_toolbar_7c424141, null));
+                                    }else {
+                                        mToolbar.setBackgroundColor(getResources().getColor(R.color.trans_toolbar_7c424141));
+                                    }
                                     ValueAnimator statusBarColorAnim = ValueAnimator.ofArgb(
                                             getWindow().getStatusBarColor(), statusBarColor);
                                     statusBarColorAnim.addUpdateListener(new ValueAnimator
