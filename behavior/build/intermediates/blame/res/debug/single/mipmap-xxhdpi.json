@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "E:\\PandaQ\\MvpDemo\\behavior\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi\\abc_ic_ab_back_top.png",
+        "source": "E:\\PandaQ\\MvpDemo\\behavior\\src\\main\\res\\mipmap-xxhdpi\\abc_ic_ab_back_top.png"
+    },
+    {
+        "merged": "E:\\PandaQ\\MvpDemo\\behavior\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi\\ic_action_new.png",
+        "source": "E:\\PandaQ\\MvpDemo\\behavior\\src\\main\\res\\mipmap-xxhdpi\\ic_action_new.png"
+    },
+    {
+        "merged": "E:\\PandaQ\\MvpDemo\\behavior\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi\\ic_launcher.png",
+        "source": "E:\\PandaQ\\MvpDemo\\behavior\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    }
+]

@@ -1,0 +1,88 @@
+-- Merging decision tree log ---
+manifest
+ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:2:1-33:12
+	package
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:3:5-44
+		INJECTED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml
+		INJECTED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml
+		INJECTED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		INJECTED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml
+		INJECTED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml
+application
+ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:5:5-31:19
+MERGED from [com.android.support:design:23.4.0] C:\Users\PandaQ\.android\build-cache\4cc2c5ba23380d3842d32a6ba81897d39dbc4eac\output\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\PandaQ\.android\build-cache\ca4c1bd2cca17e95fcda516c23b1228699b9b3d7\output\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\PandaQ\.android\build-cache\ed902ffc2821bd5f9a04b635ccb06a90340bf6f4\output\AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\PandaQ\.android\build-cache\be1ed2fcdcb862612c01aad3d4f97d5c435e9fce\output\AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-v4:23.4.0] C:\Users\PandaQ\.android\build-cache\b359daf1ea3c31a150162ae9cbf84983e99ea7d8\output\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:cardview-v7:23.4.0] C:\Users\PandaQ\.android\build-cache\1a006654d6fc9f4e2a0f95df2369bbd2935c11a0\output\AndroidManifest.xml:22:5-20
+	android:label
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:8:9-41
+	android:allowBackup
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:6:9-35
+	android:icon
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:7:9-43
+	android:theme
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:9:9-40
+activity#com.yanzhenjie.definebehavior.MainActivity
+ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:10:9-18:20
+	android:label
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:12:13-45
+	android:name
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:11:13-41
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:13:13-17:29
+action#android.intent.action.MAIN
+ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:14:17-69
+	android:name
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:14:25-66
+category#android.intent.category.LAUNCHER
+ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:16:17-77
+	android:name
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:16:27-74
+activity#com.yanzhenjie.definebehavior.BackTopActivity
+ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:19:9-21:36
+	android:label
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:21:13-33
+	android:name
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:20:13-44
+activity#com.yanzhenjie.definebehavior.BottomSheetBehaviorActivity
+ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:22:9-24:44
+	android:label
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:24:13-41
+	android:name
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:23:13-56
+activity#com.yanzhenjie.definebehavior.ZhihuActivity
+ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:25:9-27:38
+	android:label
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:27:13-35
+	android:name
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:26:13-42
+activity#com.yanzhenjie.definebehavior.SwipeDismissBehaviorActivity
+ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:28:9-30:44
+	android:label
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:30:13-41
+	android:name
+		ADDED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml:29:13-57
+uses-sdk
+INJECTED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:design:23.4.0] C:\Users\PandaQ\.android\build-cache\4cc2c5ba23380d3842d32a6ba81897d39dbc4eac\output\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:23.4.0] C:\Users\PandaQ\.android\build-cache\b09281ea2c847cde3796704b109695bd9f6915de\output\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\PandaQ\.android\build-cache\ca4c1bd2cca17e95fcda516c23b1228699b9b3d7\output\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\PandaQ\.android\build-cache\ed902ffc2821bd5f9a04b635ccb06a90340bf6f4\output\AndroidManifest.xml:5:5-44
+MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\PandaQ\.android\build-cache\be1ed2fcdcb862612c01aad3d4f97d5c435e9fce\output\AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-v4:23.4.0] C:\Users\PandaQ\.android\build-cache\b359daf1ea3c31a150162ae9cbf84983e99ea7d8\output\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:cardview-v7:23.4.0] C:\Users\PandaQ\.android\build-cache\1a006654d6fc9f4e2a0f95df2369bbd2935c11a0\output\AndroidManifest.xml:20:5-43
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:23.4.0] C:\Users\PandaQ\.android\build-cache\ca4c1bd2cca17e95fcda516c23b1228699b9b3d7\output\AndroidManifest.xml:23:9-75
+	android:targetSdkVersion
+		INJECTED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml
+		INJECTED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml
+		INJECTED from E:\PandaQ\MvpDemo\behavior\src\main\AndroidManifest.xml

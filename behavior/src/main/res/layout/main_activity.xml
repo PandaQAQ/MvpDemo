@@ -1,0 +1,50 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <Button
+            android:id="@+id/btn_back_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="回到顶部按钮" />
+
+        <Button
+            android:id="@+id/btn_zhihu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="仿知乎" />
+
+        <Button
+            android:id="@+id/btn_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="底部覆盖Behavior" />
+
+        <Button
+            android:id="@+id/btn_swipe_dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="滑动删除Behavior" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

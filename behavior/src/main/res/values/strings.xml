@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">自定义Behavior</string>
+
+    <string name="scale_down_show_behavior">com.yanzhenjie.definebehavior.behavior.ScaleDownShowBehavior</string>
+    <string name="scale_up_show_behavior">com.yanzhenjie.definebehavior.behavior.ScaleUpShowBehavior</string>
+    <string name="swipe_dismiss_behavior">android.support.design.widget.SwipeDismissBehavior</string>
+
+</resources>

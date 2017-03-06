@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.yanzhenjie.definebehavior">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".BackTopActivity"
+            android:label="回到顶部" />
+        <activity
+            android:name=".BottomSheetBehaviorActivity"
+            android:label="底部覆盖Behavior" />
+        <activity
+            android:name=".ZhihuActivity"
+            android:label="知乎滑动隐藏" />
+        <activity
+            android:name=".SwipeDismissBehaviorActivity"
+            android:label="滑动删除Behavior" />
+    </application>
+
+</manifest>
