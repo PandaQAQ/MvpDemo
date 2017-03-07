@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.pandaq.mvpdemo.R;
-import com.pandaq.mvpdemo.databeans.ZhihuStory;
+import com.pandaq.mvpdemo.model.zhihu.ZhihuStory;
 
 import java.util.ArrayList;
 

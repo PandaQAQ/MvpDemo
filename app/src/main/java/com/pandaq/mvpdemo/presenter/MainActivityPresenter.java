@@ -2,9 +2,9 @@ package com.pandaq.mvpdemo.presenter;
 
 import android.content.Context;
 
-import com.pandaq.mvpdemo.api.ApiManager;
+import com.pandaq.mvpdemo.model.api.ApiManager;
 import com.pandaq.mvpdemo.enums.ClientType;
-import com.pandaq.mvpdemo.ui.IViewBind.IMainActivity;
+import com.pandaq.mvpdemo.ui.IViewBind.IHttpsActivity;
 
 import java.io.IOException;
 
@@ -21,9 +21,9 @@ import rx.schedulers.Schedulers;
 
 public class MainActivityPresenter extends BasePresenter {
 
-    private IMainActivity mActivity;
+    private IHttpsActivity mActivity;
 
-    public MainActivityPresenter(IMainActivity mainActivity) {
+    public MainActivityPresenter(IHttpsActivity mainActivity) {
         this.mActivity = mainActivity;
     }
 

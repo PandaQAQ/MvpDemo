@@ -3,7 +3,6 @@ package com.pandaq.mvpdemo.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.pandaq.mvpdemo.R;
 import com.pandaq.mvpdemo.adapter.ZhihuStoryAdapter;
-import com.pandaq.mvpdemo.databeans.ZhihuStory;
+import com.pandaq.mvpdemo.model.zhihu.ZhihuStory;
 import com.pandaq.mvpdemo.presenter.NewsListPresenter;
 import com.pandaq.mvpdemo.ui.IViewBind.INewsListActivity;
 import com.pandaq.mvpdemo.utils.NetWorkUtil;

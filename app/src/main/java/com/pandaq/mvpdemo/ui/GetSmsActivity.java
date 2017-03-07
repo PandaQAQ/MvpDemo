@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.pandaq.mvpdemo.Constants;
 import com.pandaq.mvpdemo.R;
 import com.pandaq.mvpdemo.presenter.GetSmsPresenter;
 import com.pandaq.mvpdemo.utils.SmsObserver;
@@ -41,7 +42,7 @@ public class GetSmsActivity extends BaseActivity implements IGetSmsActivity {
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals("pandaq.mvpdemo.recevieSMS")) {
+            if (intent.getAction().equals(Constants.SMS_BROADCAST_FILTER)) {
                 mTvRecevieSms.setText(intent.getExtras().getString("address") + "\n" + intent.getExtras().getString("body"));
 
             }
@@ -53,7 +54,7 @@ public class GetSmsActivity extends BaseActivity implements IGetSmsActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_getsms);
         ButterKnife.bind(this);
-        IntentFilter filter = new IntentFilter("pandaq.mvpdemo.recevieSMS");
+        IntentFilter filter = new IntentFilter(Constants.SMS_BROADCAST_FILTER);
         registerReceiver(mReceiver, filter);
         //注册观察者
         registSmsObserve();

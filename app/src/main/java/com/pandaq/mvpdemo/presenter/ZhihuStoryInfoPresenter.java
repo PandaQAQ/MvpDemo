@@ -1,7 +1,7 @@
 package com.pandaq.mvpdemo.presenter;
 
-import com.pandaq.mvpdemo.api.ApiManager;
-import com.pandaq.mvpdemo.databeans.ZhihuStoryContent;
+import com.pandaq.mvpdemo.model.api.ApiManager;
+import com.pandaq.mvpdemo.model.zhihu.ZhihuStoryContent;
 import com.pandaq.mvpdemo.ui.IViewBind.IZhihuStoryInfoActivity;
 
 import rx.Subscriber;

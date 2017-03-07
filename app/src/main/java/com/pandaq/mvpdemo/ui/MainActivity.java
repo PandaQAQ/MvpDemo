@@ -3,17 +3,10 @@ package com.pandaq.mvpdemo.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
 
 import com.pandaq.mvpdemo.R;
-import com.pandaq.mvpdemo.customview.MenuItem;
-import com.pandaq.mvpdemo.enums.ClientType;
-import com.pandaq.mvpdemo.presenter.MainActivityPresenter;
-import com.pandaq.mvpdemo.ui.IViewBind.IMainActivity;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -22,18 +15,7 @@ import butterknife.OnClick;
  * email : 767807368@qq.com
  */
 
-public class MainActivity extends BaseActivity implements IMainActivity {
-
-    @BindView(R.id.tonews)
-    MenuItem mTonews;
-    @BindView(R.id.https_friendly)
-    MenuItem mHttpsFriendly;
-    @BindView(R.id.https_unfriendly)
-    MenuItem mHttpsUnfriendly;
-    @BindView(R.id.https_result)
-    TextView mHttpsResult;
-    private MainActivityPresenter mPresenter = new MainActivityPresenter(this);
-
+public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +23,7 @@ public class MainActivity extends BaseActivity implements IMainActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.tonews, R.id.https_friendly, R.id.https_unfriendly, R.id.send_sms,R.id.wheel})
+    @OnClick({R.id.tonews, R.id.https_activity, R.id.send_sms, R.id.wheel, R.id.loopers})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -49,12 +31,9 @@ public class MainActivity extends BaseActivity implements IMainActivity {
                 intent = new Intent(this, NewsListActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.https_friendly:
-                get12306Test(ClientType.TYPE_HTTPSUTILS);
-                break;
-            case R.id.https_unfriendly:
-                get12306Test(ClientType.TYPE_OKHTTPCLIENT);
-                break;
+            case R.id.https_activity:
+                intent = new Intent(this, HttpsActivity.class);
+                startActivity(intent);
             case R.id.send_sms:
                 intent = new Intent(this, GetSmsActivity.class);
                 startActivity(intent);
@@ -63,23 +42,13 @@ public class MainActivity extends BaseActivity implements IMainActivity {
                 intent = new Intent(this, WidgetActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.loopers:
+                intent = new Intent(this, LoopersActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
         }
-    }
-
-    @Override
-    public void get12306Test(ClientType type) {
-        mPresenter.get12306Test(this, type);
-    }
-
-    @Override
-    public void showResult(String result) {
-        mHttpsResult.setText(result);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mPresenter.unsubcription();
     }
 
 }

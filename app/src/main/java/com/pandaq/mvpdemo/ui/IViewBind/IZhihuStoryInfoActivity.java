@@ -1,7 +1,7 @@
 package com.pandaq.mvpdemo.ui.IViewBind;
 
 
-import com.pandaq.mvpdemo.databeans.ZhihuStoryContent;
+import com.pandaq.mvpdemo.model.zhihu.ZhihuStoryContent;
 
 /**
  * Created by PandaQ on 2016/10/10.

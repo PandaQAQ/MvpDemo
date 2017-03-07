@@ -1,1 +1,1 @@
-include ':app', ':behavior'
+include ':app'

@@ -1,25 +1,15 @@
 package com.pandaq.mvpdemo.presenter;
 
-import android.content.Context;
-import android.os.Environment;
-
-import com.jakewharton.disklrucache.DiskLruCache;
 import com.pandaq.mvpdemo.Constants;
 import com.pandaq.mvpdemo.MyApplication;
-import com.pandaq.mvpdemo.api.ApiManager;
-import com.pandaq.mvpdemo.biz.ZhihuDailyBiz;
-import com.pandaq.mvpdemo.databeans.ZhiHuDaily;
-import com.pandaq.mvpdemo.databeans.ZhihuStory;
+import com.pandaq.mvpdemo.model.api.ApiManager;
+import com.pandaq.mvpdemo.model.biz.ZhihuDailyBiz;
+import com.pandaq.mvpdemo.model.zhihu.ZhiHuDaily;
+import com.pandaq.mvpdemo.model.zhihu.ZhihuStory;
 import com.pandaq.mvpdemo.disklrucache.DiskCacheManager;
 import com.pandaq.mvpdemo.utils.OnEventLister;
 import com.pandaq.mvpdemo.ui.IViewBind.INewsListActivity;
-import com.pandaq.mvpdemo.disklrucache.SecretUtil;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import rx.Subscriber;

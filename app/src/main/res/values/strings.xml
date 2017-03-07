@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">MvpDemo</string>
     <string name="zhihu_title">知乎日报</string>
+    <string name="handler_sleep"><![CDATA[handler&sleep]]></string>
+    <string name="handler_postdelayed"><![CDATA[handler&postDelayed]]></string>
+    <string name="handler_timer"><![CDATA[handler&timer]]></string>
+    <string name="timertask">TimerTask</string>
+    <string name="scheduled">ScheduledExecutorService</string>
+    <string name="rxjava">RxJava</string>
+    <string name="conuntdown">CountDownTimer</string>
+    <string name="start">Start</string>
+    <string name="done">Done!</string>
 </resources>

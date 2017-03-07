@@ -21,24 +21,10 @@
         android:background="@color/gray_line"/>
 
     <com.pandaq.mvpdemo.customview.MenuItem
-        android:id="@+id/https_friendly"
+        android:id="@+id/https_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:text="HTTPS friendly"
-        app:textColor="@color/black"
-        app:textSize="14sp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.01dp"
-        android:layout_marginStart="16dp"
-        android:background="@color/gray_line"/>
-
-    <com.pandaq.mvpdemo.customview.MenuItem
-        android:id="@+id/https_unfriendly"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:text="HTTPS unfriendly"
+        app:text="HTTPS"
         app:textColor="@color/black"
         app:textSize="14sp"/>
 
@@ -70,13 +56,18 @@
         app:textColor="@color/black"
         app:textSize="14sp"/>
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.01dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/gray_line"/>
 
-        <TextView
-            android:id="@+id/https_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </ScrollView>
+    <com.pandaq.mvpdemo.customview.MenuItem
+        android:id="@+id/loopers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="loopers"
+        app:textColor="@color/black"
+        app:textSize="14sp"/>
+
 </LinearLayout>

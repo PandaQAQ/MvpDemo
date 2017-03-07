@@ -1,6 +1,6 @@
 package com.pandaq.mvpdemo.ui.IViewBind;
 
-import com.pandaq.mvpdemo.databeans.ZhihuStory;
+import com.pandaq.mvpdemo.model.zhihu.ZhihuStory;
 
 import java.util.ArrayList;
 
