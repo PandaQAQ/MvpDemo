@@ -56,7 +56,7 @@ public class HttpsActivity extends BaseActivity implements IHttpsActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mPresenter.unsubcription();
+        mPresenter.dispose();
     }
 
 }

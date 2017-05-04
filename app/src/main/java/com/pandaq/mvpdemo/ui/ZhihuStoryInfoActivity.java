@@ -216,6 +216,6 @@ public class ZhihuStoryInfoActivity extends BaseActivity implements IZhihuStoryI
     @Override
     protected void onPause() {
         super.onPause();
-        mPresenter.unsubcription();
+        mPresenter.dispose();
     }
 }

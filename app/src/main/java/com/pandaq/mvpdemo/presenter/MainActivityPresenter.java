@@ -8,11 +8,12 @@ import com.pandaq.mvpdemo.ui.IViewBind.IHttpsActivity;
 
 import java.io.IOException;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by PandaQ on 2016/11/20.
@@ -28,31 +29,36 @@ public class MainActivityPresenter extends BasePresenter {
     }
 
     public void get12306Test(Context context, ClientType type) {
-        Subscription subscription = new ApiManager() //此处直接new ApiManager对象避免缓存证书
+        ApiManager.getInstence()
                 .get12306Service(context, type)
                 .get12306Test()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ResponseBody>() {
+                .subscribe(new Observer<ResponseBody>() {
                     @Override
-                    public void onCompleted() {
+                    public void onSubscribe(@NonNull Disposable d) {
+                        addDisposable(d);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        mActivity.showResult(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody response) {
+                    public void onNext(@NonNull ResponseBody responseBody) {
                         try {
-                            mActivity.showResult(response.string());
+                            mActivity.showResult(responseBody.string());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        mActivity.showResult(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
                 });
-        addSubscription(subscription);
     }
 
 }

@@ -10,13 +10,16 @@ import com.pandaq.mvpdemo.disklrucache.DiskCacheManager;
 import com.pandaq.mvpdemo.utils.OnEventLister;
 import com.pandaq.mvpdemo.ui.IViewBind.INewsListActivity;
 
+import org.reactivestreams.Subscriber;
+
 import java.util.ArrayList;
 
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by PandaQ on 2016/10/19.
@@ -71,11 +74,11 @@ public class NewsListPresenter extends BasePresenter {
     //使用rxandroid+retrofit进行请求
     public void loadDataByRxandroidRetrofit() {
         mINewsListActivity.showProgressBar();
-        Subscription subscription = ApiManager.getInstence().getDataService()
+        ApiManager.getInstence().getDataService()
                 .getZhihuDaily()
-                .map(new Func1<ZhiHuDaily, ArrayList<ZhihuStory>>() {
+                .map(new Function<ZhiHuDaily, ArrayList<ZhihuStory>>() {
                     @Override
-                    public ArrayList<ZhihuStory> call(ZhiHuDaily zhiHuDaily) {
+                    public ArrayList<ZhihuStory> apply(@NonNull ZhiHuDaily zhiHuDaily) throws Exception {
                         ArrayList<ZhihuStory> stories = zhiHuDaily.getStories();
                         if (stories != null) {
                             //加载成功后将数据缓存倒本地(demo 中只有一页，实际使用时根据需求选择是否进行缓存)
@@ -88,24 +91,28 @@ public class NewsListPresenter extends BasePresenter {
                 .subscribeOn(Schedulers.io())
                 //设置事件接受在UI线程以达到UI显示的目的
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ArrayList<ZhihuStory>>() {
+                .subscribe(new Observer<ArrayList<ZhihuStory>>() {
                     @Override
-                    public void onCompleted() {
-                        mINewsListActivity.hidProgressBar();
+                    public void onSubscribe(@NonNull Disposable d) {
+                        //绑定观察对象，注意在界面的ondestory或者onpouse方法中调用presenter.unsubcription();
+                        addDisposable(d);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onNext(@NonNull ArrayList<ZhihuStory> zhihuStories) {
+                        mINewsListActivity.getDataSuccess(zhihuStories);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
                         mINewsListActivity.getDataFail("", e.getMessage());
                     }
 
                     @Override
-                    public void onNext(ArrayList<ZhihuStory> stories) {
-                        mINewsListActivity.getDataSuccess(stories);
+                    public void onComplete() {
+                        mINewsListActivity.hidProgressBar();
                     }
                 });
-        //绑定观察对象，注意在界面的ondestory或者onpouse方法中调用presenter.unsubcription();
-        addSubscription(subscription);
     }
 
     private void makeCache(ArrayList<ZhihuStory> stories) {

@@ -82,7 +82,7 @@ public class NewsListActivity extends BaseActivity implements INewsListActivity,
     //使用RxAndroid添加的方法，用于在退出时解绑观察
     @Override
     public void unSubcription() {
-        mPresenter.unsubcription();
+        mPresenter.dispose();
     }
 
     @Override

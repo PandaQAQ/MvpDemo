@@ -23,12 +23,14 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by PandaQ on 2017/3/6.
@@ -143,44 +145,52 @@ public class LoopersActivity extends BaseActivity {
     /**
      * RxJava 方式实现
      */
+    private Disposable mDisposable;
+
     private void rxJava() {
         final long count = TOTAL_TIME / 1000;
         Observable.interval(0, 1, TimeUnit.SECONDS)//设置0延迟，每隔一秒发送一条数据
                 .take((int) (count + 1)) //设置总共发送的次数
-                .map(new Func1<Long, Long>() { //将数值倒置
+                .map(new Function<Long, Long>() {
                     @Override
-                    public Long call(Long aLong) {
-                        return count - aLong; //
-                    }
+                    public Long apply(@NonNull Long aLong) throws Exception {
+                        return count - aLong;
+                    } //将数值倒置
+
                 })
                 .subscribeOn(Schedulers.computation())
                 // doOnSubscribe 执行线程由下游逻辑最近的 subscribeOn() 控制，下游没有 subscribeOn() 则跟Subscriber 在同一线程执行
                 //执行计时任务前先将 button 设置为不可点击
-                .doOnSubscribe(new Action0() {
+                .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
-                    public void call() {
+                    public void accept(@NonNull Disposable disposable) throws Exception {
                         mStart.setEnabled(false);//在发送数据的时候设置为不能点击
                         mStart.setBackgroundColor(Color.GRAY);//背景色设为灰色
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())//操作UI主要在UI线程
-                .subscribe(new Subscriber<Long>() {
+                .subscribe(new Observer<Long>() {
                     @Override
-                    public void onCompleted() {
-                        mTvValue.setText(getResources().getString(R.string.done));
-                        mStart.setEnabled(true);
-                        mStart.setBackgroundColor(Color.parseColor("#f97e7e"));
+                    public void onSubscribe(@NonNull Disposable d) {
+                        mDisposable = d;
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onNext(@NonNull Long aLong) {
+                        String value = String.valueOf(aLong);
+                        mTvValue.setText(value);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
                         e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(Long aLong) { //接收到一条就是会操作一次UI
-                        String value = String.valueOf(aLong);
-                        mTvValue.setText(value);
+                    public void onComplete() {
+                        mTvValue.setText(getResources().getString(R.string.done));
+                        mStart.setEnabled(true);
+                        mStart.setBackgroundColor(Color.parseColor("#f97e7e"));
                     }
                 });
     }
@@ -250,6 +260,14 @@ public class LoopersActivity extends BaseActivity {
                     TOTAL_TIME_SEC--;
                     break;
             }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
         }
     }
 }

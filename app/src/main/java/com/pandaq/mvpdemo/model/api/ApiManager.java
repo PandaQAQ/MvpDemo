@@ -12,7 +12,7 @@ import java.io.InputStream;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -52,7 +52,7 @@ public class ApiManager {
                     .baseUrl(GlobalConfig.baseUrl)
                     //将client与retrofit关联
                     .client(client)
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             mDailyApi = retrofit.create(RetrofitService.class);
@@ -87,7 +87,7 @@ public class ApiManager {
                     .baseUrl(GlobalConfig.baseTestUrl)
                     //将client与retrofit关联
                     .client(client)
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                     .build();
             mDailyApi = retrofit.create(RetrofitService.class);

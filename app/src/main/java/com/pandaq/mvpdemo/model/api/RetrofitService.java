@@ -3,11 +3,11 @@ package com.pandaq.mvpdemo.model.api;
 import com.pandaq.mvpdemo.model.zhihu.ZhiHuDaily;
 import com.pandaq.mvpdemo.model.zhihu.ZhihuStoryContent;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
 
 /**
  * Created by PandaQ on 2016/11/2.

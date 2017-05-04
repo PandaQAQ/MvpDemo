@@ -4,10 +4,12 @@ import com.pandaq.mvpdemo.model.api.ApiManager;
 import com.pandaq.mvpdemo.model.zhihu.ZhihuStoryContent;
 import com.pandaq.mvpdemo.ui.IViewBind.IZhihuStoryInfoActivity;
 
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by PandaQ on 2016/10/10.
@@ -24,27 +26,30 @@ public class ZhihuStoryInfoPresenter extends BasePresenter {
 
     public void loadStory(String id) {
         mActivity.showProgressBar();
-        Subscription subscription = ApiManager.getInstence().getDataService()
+        ApiManager.getInstence().getDataService()
                 .getStoryContent(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ZhihuStoryContent>() {
+                .subscribe(new Observer<ZhihuStoryContent>() {
                     @Override
-                    public void onCompleted() {
-
+                    public void onSubscribe(@NonNull Disposable d) {
+                        addDisposable(d);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onNext(@NonNull ZhihuStoryContent zhihuStoryContent) {
+                        mActivity.loadSuccess(zhihuStoryContent);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
                         mActivity.loadFail(e.getMessage());
                     }
 
                     @Override
-                    public void onNext(ZhihuStoryContent zhihuStoryContent) {
-                        mActivity.loadSuccess(zhihuStoryContent);
+                    public void onComplete() {
+
                     }
                 });
-
-        addSubscription(subscription);
     }
 }
