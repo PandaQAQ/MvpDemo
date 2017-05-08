@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * Created by PandaQ on 2017/2/6.
  * email : 767807368@qq.com
@@ -13,14 +16,21 @@ import android.content.pm.PackageManager;
 public class MyApplication extends Application {
 
     private static MyApplication sMyApplication;
+
     @Override
     public void onCreate() {
         super.onCreate();
         sMyApplication = this;
+        Realm.init(this);
+        RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .name("download_been")
+                .build();
+        Realm.setDefaultConfiguration(configuration);
     }
 
     /**
      * 获取全局 context
+     *
      * @return 全局context
      */
     public static Context getContext() {
@@ -29,6 +39,7 @@ public class MyApplication extends Application {
 
     /**
      * 获取应用的版本号
+     *
      * @return 应用版本号
      */
     public static int getAppVersion() {

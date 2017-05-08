@@ -47,7 +47,7 @@ public class OkDownloader {
     /**
      * 设置最大线程数
      *
-     * @param maxTaskSize
+     * @param maxTaskSize 最大线程数
      */
     private void setMaxTaskSize(int maxTaskSize) {
         this.maxTaskSize = maxTaskSize;
@@ -60,35 +60,8 @@ public class OkDownloader {
      * @param taskId taskId
      * @return 任务状态
      */
-    private int getDownloadState(String taskId) {
-        return downloadBeen.containsKey(taskId) ? downloadBeen.get(taskId).getLoadState() : DownloadState.STATE_NEW.getNum();
-    }
-
-
-    /**
-     * 获取当前正在执行的任务
-     */
-    public static void getCurrentTask() {
-
-    }
-
-    /**
-     * 根据任务 ID 删除任务
-     *
-     * @param taskId     任务ID
-     * @param deleteFile 是否删除下载文件
-     */
-    public static void deleteByTask(String taskId, boolean deleteFile) {
-
-    }
-
-    /**
-     * 根据任务 ID 删除数据库记录
-     *
-     * @param taskId 任务ID
-     */
-    public static void deleteByTask(String taskId) {
-        deleteByTask(taskId, false);
+    private DownloadState getDownloadState(String taskId) {
+        return downloadBeen.containsKey(taskId) ? downloadBeen.get(taskId).getLoadState() : DownloadState.STATE_NEW;
     }
 
     public void start(String taskId, String downloadUrl, String savePath) {
@@ -106,11 +79,11 @@ public class OkDownloader {
         //保存下载对象
         //saveDownloadBean();
         //只有新建任务，暂停任务，出错任务三种状态能创建一个新的下载
-        int state = bean.getLoadState();
-        if (state == DownloadState.STATE_NEW.getNum() || state == DownloadState.STATE_ERROR.getNum()
-                || state == DownloadState.STATE_PAUSE.getNum()) {
+        DownloadState state = bean.getLoadState();
+        if (state == DownloadState.STATE_NEW || state == DownloadState.STATE_ERROR
+                || state == DownloadState.STATE_PAUSE) {
             DownloadTask downloadTask = new DownloadTask(this, bean);
-            bean.setLoadState(DownloadState.STATE_WAITTING.getNum());
+            bean.setLoadState(DownloadState.STATE_WAITTING);
             notifyDownloadUpdate(bean);
             ThreadPoolManager.instance().execute(downloadTask);
             Log.d("OkDownLoader", "enqueue download task into thread pool!");
@@ -183,7 +156,7 @@ public class OkDownloader {
     private void pause(String taskId) {
         DownloadBean bean = getDownloadBean(taskId);
         if (bean != null) {
-            bean.setLoadState(DownloadState.STATE_PAUSE.getNum());
+            bean.setLoadState(DownloadState.STATE_PAUSE);
         }
     }
 

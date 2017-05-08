@@ -6,10 +6,11 @@ package com.pandaq.mvpdemo.download;
  */
 
 public class DownloadBean {
+
     private String taskId;//下载任务的ID，作为一次任务的唯一标识
     private long downloaded;//已下载文件的长度
     private long totalSize;//文件总大小
-    private int loadState;//任务下载状态
+    private DownloadState loadState;//任务下载状态
     private String downloadUrl;//下载地址
     private String savePath;//文件保存地址
 
@@ -41,11 +42,11 @@ public class DownloadBean {
         this.totalSize = totalSize;
     }
 
-    public int getLoadState() {
+    public DownloadState getLoadState() {
         return loadState;
     }
 
-    public void setLoadState(int loadState) {
+    public void setLoadState(DownloadState loadState) {
         this.loadState = loadState;
     }
 
@@ -65,11 +66,11 @@ public class DownloadBean {
         this.savePath = savePath;
     }
 
-    static class Builder {
+    public static class Builder {
         private String taskId;//下载任务的ID，作为一次任务的唯一标识
         private long downloaded;//已下载文件的长度
         private long totalSize;//文件总大小
-        private int loadState;//任务下载状态
+        private DownloadState loadState;//任务下载状态
         private String downloadUrl;//下载地址
         private String savePath;//文件保存地址
 
@@ -89,7 +90,7 @@ public class DownloadBean {
         }
 
         public Builder loadState(DownloadState state) {
-            this.loadState = state.getNum();
+            this.loadState = state;
             return this;
         }
 

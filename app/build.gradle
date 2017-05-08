@@ -1,8 +1,6 @@
 apply plugin: 'com.android.application'
 //butterknife
 apply plugin: 'android-apt'
-//realm
-apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25

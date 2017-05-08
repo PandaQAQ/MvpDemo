@@ -23,6 +23,7 @@ public enum DownloadState {
     STATE_WAITTING(5);
 
     private int num;
+
     DownloadState(int num) {
         this.num = num;
     }

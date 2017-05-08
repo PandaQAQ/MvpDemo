@@ -32,7 +32,7 @@ public class DownloadTask implements Runnable {
     @Override
     public void run() {
         Log.d("DownLoadTask", "start downloading...");
-        mDownloadBean.setLoadState(DownloadState.STATE_LOADING.getNum());
+        mDownloadBean.setLoadState(DownloadState.STATE_LOADING);
         mDownLoader.notifyDownloadUpdate(mDownloadBean);
         File file = new File(mDownloadBean.getSavePath());
         if (file.exists() || file.length() != mDownloadBean.getDownloaded()) {
@@ -53,7 +53,7 @@ public class DownloadTask implements Runnable {
                 byte[] buffer = new byte[1024 * 8];
                 int len;
                 long currentLength = mDownloadBean.getDownloaded();
-                while (mDownloadBean.getLoadState() == DownloadState.STATE_LOADING.getNum() && mDownloadBean
+                while (mDownloadBean.getLoadState() == DownloadState.STATE_LOADING && mDownloadBean
                         .getDownloaded() < mDownloadBean.getTotalSize() && mDownloadBean.getTotalSize() > 0 &&
                         (len = inputStream.read(buffer)) != -1) {
                     fos.write(buffer, 0, len);
@@ -76,8 +76,8 @@ public class DownloadTask implements Runnable {
                 }
                 if (file.length() == mDownloadBean.getTotalSize()
                         && mDownloadBean.getDownloaded() == mDownloadBean.getTotalSize()
-                        && mDownloadBean.getLoadState() == DownloadState.STATE_LOADING.getNum()) {
-                    mDownloadBean.setLoadState(DownloadState.STATE_FINISH.getNum());
+                        && mDownloadBean.getLoadState() == DownloadState.STATE_LOADING) {
+                    mDownloadBean.setLoadState(DownloadState.STATE_FINISH);
                 }
                 mDownLoader.notifyDownloadUpdate(mDownloadBean);
 //                mDownLoader.updateDownloadInfo(mDownloadBean);
@@ -113,7 +113,7 @@ public class DownloadTask implements Runnable {
      * process error state
      */
     public void processErrerState() {
-        mDownloadBean.setLoadState(DownloadState.STATE_ERROR.getNum());
+        mDownloadBean.setLoadState(DownloadState.STATE_ERROR);
         mDownLoader.notifyDownloadUpdate(mDownloadBean);
     }
 }
