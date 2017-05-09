@@ -1,4 +1,4 @@
-package com.pandaq.mvpdemo.download;
+package com.pandaq.mvpdemo.download.downloader;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
@@ -15,14 +15,10 @@ import java.util.concurrent.TimeUnit;
 public class ThreadPoolManager {
     private static ThreadPoolManager sPoolManager;
     private ThreadPoolExecutor mPoolExecutor;
-    /*核心线程数*/
-    int corePoolSize;
     /*池内最大线程数*/
-    int maxPoolSize;
+    private int maxPoolSize;
     /*线程空闲退出时间*/
-    long keepAliveTime;
-    private BlockingQueue<Runnable> workers = new LinkedBlockingQueue<>();
-    private RejectedExecutionHandler mHandler = new ThreadPoolExecutor.AbortPolicy();
+    private long keepAliveTime = 30;
 
     public static ThreadPoolManager instance() {
         if (sPoolManager == null) {
@@ -37,17 +33,19 @@ public class ThreadPoolManager {
 
     private ThreadPoolManager() {
         //calculate corePoolSize, which is the same to AsyncTask.
-        corePoolSize = Runtime.getRuntime().availableProcessors() * 2 + 1;
+        int corePoolSize = Runtime.getRuntime().availableProcessors() * 2 + 1;
         maxPoolSize = corePoolSize;
         //we custom the threadpool.
+        BlockingQueue<Runnable> workers = new LinkedBlockingQueue<>();
+        RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
         mPoolExecutor = new ThreadPoolExecutor(
                 corePoolSize, //is 3 in avd.
                 maxPoolSize, //which is unuseless
                 keepAliveTime,
-                TimeUnit.HOURS,
+                TimeUnit.MINUTES,
                 workers,
                 Executors.defaultThreadFactory(),
-                mHandler
+                handler
         );
     }
 
@@ -75,5 +73,14 @@ public class ThreadPoolManager {
         if (runnable != null) {
             mPoolExecutor.remove(runnable);
         }
+    }
+
+    /**
+     * 线程空闲退出时间，单位分钟
+     *
+     * @param minute 时间
+     */
+    public void setKeepAliveTime(int minute) {
+        keepAliveTime = minute;
     }
 }

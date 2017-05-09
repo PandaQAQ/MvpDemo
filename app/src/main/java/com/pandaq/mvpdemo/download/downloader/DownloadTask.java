@@ -1,4 +1,4 @@
-package com.pandaq.mvpdemo.download;
+package com.pandaq.mvpdemo.download.downloader;
 
 import android.util.Log;
 
@@ -45,6 +45,7 @@ public class DownloadTask implements Runnable {
         }
         //获取下载文件信息
         InputStream inputStream = downLoad();
+        Log.d("DownLoadTask", contentLength + "");
         mDownloadBean.setTotalSize(contentLength);
         if (inputStream != null) {
             FileOutputStream fos = null;

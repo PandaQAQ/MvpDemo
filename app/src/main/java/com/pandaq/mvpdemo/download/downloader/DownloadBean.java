@@ -1,4 +1,4 @@
-package com.pandaq.mvpdemo.download;
+package com.pandaq.mvpdemo.download.downloader;
 
 /**
  * Created by PandaQ on 2017/5/4.
@@ -13,6 +13,15 @@ public class DownloadBean {
     private DownloadState loadState;//任务下载状态
     private String downloadUrl;//下载地址
     private String savePath;//文件保存地址
+    private OkDownloader.DownloadObserver mObserver;//下载监听
+
+    public OkDownloader.DownloadObserver getObserver() {
+        return mObserver;
+    }
+
+    public void setObserver(OkDownloader.DownloadObserver observer) {
+        mObserver = observer;
+    }
 
     private DownloadBean(String downloadUrl) {
         this.downloadUrl = downloadUrl;
@@ -73,6 +82,7 @@ public class DownloadBean {
         private DownloadState loadState;//任务下载状态
         private String downloadUrl;//下载地址
         private String savePath;//文件保存地址
+        private OkDownloader.DownloadObserver mObserver;//下载监听
 
         public Builder taskId(String taskId) {
             this.taskId = taskId;
@@ -104,6 +114,11 @@ public class DownloadBean {
             return this;
         }
 
+        public Builder listener(OkDownloader.DownloadObserver observer) {
+            this.mObserver = observer;
+            return this;
+        }
+
         public DownloadBean build() {
             DownloadBean bean = new DownloadBean(this.downloadUrl);
             bean.taskId = this.taskId;
@@ -111,6 +126,7 @@ public class DownloadBean {
             bean.totalSize = this.totalSize;
             bean.loadState = this.loadState;
             bean.savePath = this.savePath;
+            bean.mObserver = this.mObserver;
             return bean;
         }
     }

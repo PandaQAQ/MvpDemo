@@ -1,12 +1,16 @@
-package com.pandaq.mvpdemo.download;
+package com.pandaq.mvpdemo.download.downloader;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.pandaq.mvpdemo.download.db.DownloadBeanDao;
+
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 
@@ -16,33 +20,17 @@ import okhttp3.OkHttpClient;
  */
 
 public class OkDownloader {
-    private static OkDownloader sLoader;
-    /*最大下载线程数，默认为核心线程数*/
-    private int maxTaskSize;
-    /*执行下载任务的 client*/
-    private OkHttpClient mOkHttpClient = null;
-    /*任务ID，用于存入数据库保存某一次下载任务的状态*/
-    private String mTaskId;
-    /*key:taskId,value:每一项下载任务对应的 Observer 的列表*/
-    private HashMap<String, ArrayList<DownloadObserver>> observerMap = new HashMap<>();
+    /*上下文*/
+    private Context mContext;
+    /*下载的 client*/
+    private OkHttpClient mClient;
+    /*线程池中最大线程数*/
+    private int mMaxTaskSize;
     /*key:taskId,value:每一项下载任务对应的 下载对象 的列表*/
     private HashMap<String, DownloadBean> downloadBeen = new HashMap<>();
     /*用于主线程消息通知的 handler*/
     private Handler mHandler = new Handler(Looper.getMainLooper());
-
-    /**
-     * @return OkDownLoader 的单例
-     */
-    public static OkDownloader create() {
-        if (sLoader == null) {
-            synchronized (OkDownloader.class) {
-                if (sLoader == null) {
-                    sLoader = new OkDownloader();
-                }
-            }
-        }
-        return sLoader;
-    }
+    private DownloadBeanDao mBeanDao;
 
     /**
      * 设置最大线程数
@@ -50,8 +38,8 @@ public class OkDownloader {
      * @param maxTaskSize 最大线程数
      */
     private void setMaxTaskSize(int maxTaskSize) {
-        this.maxTaskSize = maxTaskSize;
-        ThreadPoolManager.instance().setMaxPoolSize(maxTaskSize);
+        this.mMaxTaskSize = maxTaskSize;
+        ThreadPoolManager.instance().setMaxPoolSize(mMaxTaskSize);
     }
 
     /**
@@ -64,20 +52,16 @@ public class OkDownloader {
         return downloadBeen.containsKey(taskId) ? downloadBeen.get(taskId).getLoadState() : DownloadState.STATE_NEW;
     }
 
-    public void start(String taskId, String downloadUrl, String savePath) {
-        DownloadBean bean = downloadBeen.get(taskId);
-        if (bean != null) {
-            bean.setDownloadUrl(downloadUrl);
-        } else {
-            bean = new DownloadBean.Builder()
-                    .savePath(savePath)
-                    .downloadUrl(downloadUrl)
-                    .taskId(taskId)
-                    .build();
-            downloadBeen.put(taskId, bean);
+    public void start() {
+        for (Object o : downloadBeen.entrySet()) {
+            Map.Entry entry = (Map.Entry) o;
+            start((DownloadBean) entry.getValue());
         }
+    }
+
+    private void start(DownloadBean bean) {
         //保存下载对象
-        //saveDownloadBean();
+        saveDownloadBean(bean);
         //只有新建任务，暂停任务，出错任务三种状态能创建一个新的下载
         DownloadState state = bean.getLoadState();
         if (state == DownloadState.STATE_NEW || state == DownloadState.STATE_ERROR
@@ -98,7 +82,15 @@ public class OkDownloader {
      * @param bean 下载对象
      */
     private void saveDownloadBean(DownloadBean bean) {
-
+        // BeanDao 对象不存在先实例化对象
+        if (mBeanDao == null) {
+            mBeanDao = new DownloadBeanDao(mContext);
+        }
+        // 存储下载信息的表不存在先创建表
+        if (!mBeanDao.tabIsExist()) {
+            mBeanDao.createTable();
+        }
+        mBeanDao.insert(bean);
     }
 
     /**
@@ -107,7 +99,11 @@ public class OkDownloader {
      * @param bean 下载对象
      */
     private void updateDownloadBean(DownloadBean bean) {
-
+        // BeanDao 对象不存在先实例化对象
+        if (mBeanDao == null) {
+            mBeanDao = new DownloadBeanDao(mContext);
+        }
+        mBeanDao.update(bean);
     }
 
     /**
@@ -130,7 +126,11 @@ public class OkDownloader {
     private void deleteDownloadBean(DownloadBean bean, boolean deleteFile) {
         pause(bean.getTaskId());
         //数据库删除
-        //downloadInfoDao.delete(bean);
+        // BeanDao 对象不存在先实例化对象
+        if (mBeanDao == null) {
+            mBeanDao = new DownloadBeanDao(mContext);
+        }
+        mBeanDao.delete(bean.getTaskId());
         //删除下载文件
         if (deleteFile) {
             new File(bean.getSavePath()).delete();
@@ -161,40 +161,6 @@ public class OkDownloader {
     }
 
     /**
-     * 将监听与taskId进行对应
-     *
-     * @param observer 监听对象
-     * @param taskId   任务ID
-     */
-    private void addObserver(DownloadObserver observer, String taskId) {
-        if (taskId == null) return;
-        ArrayList<DownloadObserver> list = observerMap.get(taskId);
-        if (list == null) {
-            list = new ArrayList<>();
-        }
-        list.add(observer);
-        observerMap.put(taskId, list);
-        Log.d("OkDownloader", "add observer successful!");
-    }
-
-    /**
-     * 移除任务监听
-     *
-     * @param observer 监听对象
-     * @param taskId   任务ID
-     */
-    private void removeObserver(DownloadObserver observer, String taskId) {
-        if (taskId == null) return;
-        if (observerMap.containsKey(taskId)) {
-            ArrayList<DownloadObserver> list = observerMap.get(taskId);
-            if (list != null) {
-                list.remove(observer);
-                observerMap.put(taskId, list);
-            }
-        }
-    }
-
-    /**
      * 通知所有的监听器下载更新
      *
      * @param bean 下载对象
@@ -203,9 +169,8 @@ public class OkDownloader {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                ArrayList<DownloadObserver> observers = observerMap.get(bean.getTaskId());
-                if (observers == null || observers.size() <= 0) return;
-                for (DownloadObserver observer : observers) {
+                DownloadObserver observer = bean.getObserver();
+                if (observer != null) {
                     observer.onDownloadUpdate(bean);
                 }
             }
@@ -217,5 +182,46 @@ public class OkDownloader {
      */
     public interface DownloadObserver {
         void onDownloadUpdate(DownloadBean downloadInfo);
+
+        void onFinished(DownloadBean downloadInfo);
+    }
+
+    public static class Builder {
+        private int mMaxTaskSize;
+        private Context mContext;
+        private OkHttpClient mClient;
+        /*key:taskId,value:每一项下载任务对应的 下载对象 的列表*/
+        private HashMap<String, DownloadBean> downloadBeen = new HashMap<>();
+
+        public Builder addDownloadBean(DownloadBean bean) {
+            if (bean != null && !downloadBeen.containsKey(bean.getTaskId())) {
+                downloadBeen.put(bean.getTaskId(), bean);
+            }
+            return this;
+        }
+
+        public Builder context(Context context) {
+            mContext = context;
+            return this;
+        }
+
+        public Builder client(OkHttpClient client) {
+            mClient = client;
+            return this;
+        }
+
+        public Builder maxTask(int maxTaskSize) {
+            mMaxTaskSize = maxTaskSize;
+            return this;
+        }
+
+        public OkDownloader build() {
+            OkDownloader downloader = new OkDownloader();
+            downloader.mClient = this.mClient;
+            downloader.mContext = this.mContext;
+            downloader.mMaxTaskSize = this.mMaxTaskSize;
+            downloader.downloadBeen = this.downloadBeen;
+            return downloader;
+        }
     }
 }

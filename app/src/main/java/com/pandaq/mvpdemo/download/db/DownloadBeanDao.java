@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.pandaq.mvpdemo.download.DownloadBean;
+import com.pandaq.mvpdemo.download.downloader.DownloadBean;
 
 import java.util.ArrayList;
 
@@ -24,9 +24,9 @@ public class DownloadBeanDao {
     }
 
     //创建存储下载对象信息的表
-    private void createTable() {
+    public void createTable() {
         mDatabase = mSQLiteHelper.getWritableDatabase();
-        mDatabase.execSQL("create table " + DOWNLOAD_TABLE + " (id integer primary key autoincrement,task_id string,downloaded long," +
+        mDatabase.execSQL("create table " + DOWNLOAD_TABLE + " (id integer primary key autoincrement,taskId string,downloaded long," +
                 "totalSize long,loadState int,downloadUrl string,savePath string)");
         mDatabase.close();
     }
@@ -34,39 +34,37 @@ public class DownloadBeanDao {
     /**
      * judge tableName is in your data library or not
      *
-     * @param tableName 被查询是否存在的表名
      * @return 存在返回真，不存在返回假
      */
     // 判断数据库中的tableName表是否存在
-    public boolean tabIsExist(String tableName) {
+    public boolean tabIsExist() {
         mDatabase = mSQLiteHelper.getWritableDatabase();
         boolean result = false;
-        if (tableName == null) {
-            mDatabase.close();
-            return false;
-        } else {
-            Cursor cursor = null;
-            try {
-                String sql = "select count(*) as c from sqlite_master where type ='table' and name ='"
-                        + tableName.trim() + "' ";
-                cursor = mDatabase.rawQuery(sql, null);
-                if (cursor.moveToNext()) {
-                    int count = cursor.getInt(0);
-                    if (count > 0) {
-                        result = true;
-                    }
+        Cursor cursor = null;
+        try {
+            String sql = "select count(*) as c from sqlite_master where type ='table' and name ='"
+                    + DOWNLOAD_TABLE + "' ";
+            cursor = mDatabase.rawQuery(sql, null);
+            if (cursor.moveToNext()) {
+                int count = cursor.getInt(0);
+                if (count > 0) {
+                    result = true;
                 }
-
-            } catch (Exception e) {
-                // TODO: handle exception
             }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        } finally {
             mDatabase.close();
-            return result;
+            if (cursor != null) {
+                cursor.close();
+            }
         }
+        return result;
     }
 
     //删除存储下载对象信息的表
-    private void deleteTable() {
+    public void deleteTable() {
         mDatabase = mSQLiteHelper.getWritableDatabase();
         mDatabase.execSQL("drop table " + DOWNLOAD_TABLE);
         mDatabase.close();
@@ -77,7 +75,7 @@ public class DownloadBeanDao {
      *
      * @param bean 下载信息对象
      */
-    private void insert(DownloadBean bean) {
+    public void insert(DownloadBean bean) {
         mDatabase = mSQLiteHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("taskId", bean.getTaskId());
@@ -94,7 +92,7 @@ public class DownloadBeanDao {
      *
      * @param bean 被更新的下载数据
      */
-    private void update(DownloadBean bean) {
+    public void update(DownloadBean bean) {
         ContentValues values = new ContentValues();
         values.put("downloaded", bean.getDownloaded());
         mDatabase = mSQLiteHelper.getWritableDatabase();
@@ -107,7 +105,7 @@ public class DownloadBeanDao {
      *
      * @param taskId 被删除的下载信息 taskId
      */
-    private void delete(String taskId) {
+    public void delete(String taskId) {
         mDatabase = mSQLiteHelper.getWritableDatabase();
         mDatabase.delete(DOWNLOAD_TABLE, "taskId = ?", new String[]{taskId});
         mDatabase.close();
@@ -119,7 +117,7 @@ public class DownloadBeanDao {
      * @param taskId 查询的下载信息对应的 taskId
      * @return 查询到的下载信息实体
      */
-    private DownloadBean query(String taskId) {
+    public DownloadBean query(String taskId) {
         mDatabase = mSQLiteHelper.getReadableDatabase();
         Cursor cursor = mDatabase.rawQuery("select * from " + DOWNLOAD_TABLE + " where taskId = " + taskId, null);
         DownloadBean bean = null;
@@ -146,7 +144,7 @@ public class DownloadBeanDao {
      *
      * @return 下载信息列表
      */
-    private ArrayList<DownloadBean> queryAll() {
+    public ArrayList<DownloadBean> queryAll() {
         ArrayList<DownloadBean> downloadbeen = new ArrayList<>();
         mDatabase = mSQLiteHelper.getReadableDatabase();
         Cursor cursor = mDatabase.rawQuery("select * from " + DOWNLOAD_TABLE, null);

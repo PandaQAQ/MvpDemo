@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-
 /**
  * Created by PandaQ on 2017/2/6.
  * email : 767807368@qq.com
@@ -21,11 +18,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sMyApplication = this;
-        Realm.init(this);
-        RealmConfiguration configuration = new RealmConfiguration.Builder()
-                .name("download_been")
-                .build();
-        Realm.setDefaultConfiguration(configuration);
     }
 
     /**

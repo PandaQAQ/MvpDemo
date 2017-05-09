@@ -23,7 +23,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.tonews, R.id.https_activity, R.id.send_sms, R.id.wheel, R.id.loopers})
+    @OnClick({R.id.tonews, R.id.https_activity, R.id.send_sms, R.id.wheel, R.id.loopers,R.id.downloader})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -46,6 +46,9 @@ public class MainActivity extends BaseActivity {
                 intent = new Intent(this, LoopersActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.downloader:
+                intent = new Intent(this, DownloaderActivity.class);
+                startActivity(intent);
             default:
                 break;
         }

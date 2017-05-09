@@ -1,4 +1,4 @@
-package com.pandaq.mvpdemo.download;
+package com.pandaq.mvpdemo.download.downloader;
 
 /**
  * Created by PandaQ on 2017/5/8.
