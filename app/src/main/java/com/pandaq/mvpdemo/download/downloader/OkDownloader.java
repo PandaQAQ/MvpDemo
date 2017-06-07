@@ -9,7 +9,6 @@ import com.pandaq.mvpdemo.download.db.DownloadBeanDao;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
@@ -187,6 +186,7 @@ public class OkDownloader {
     }
 
     public static class Builder {
+        OkHttpClient mClien1t = new OkHttpClient();
         private int mMaxTaskSize;
         private Context mContext;
         private OkHttpClient mClient;

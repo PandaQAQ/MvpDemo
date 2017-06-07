@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
  * email : 767807368@qq.com
  * 知乎日报打开详情页面
  */
-public class ZhihuStoryInfoActivity extends BaseActivity implements IZhihuStoryInfoActivity {
+public class ZhihuStoryInfoActivity extends SwipeBackActivity implements IZhihuStoryInfoActivity {
 
     private static final float SCRIM_ADJUSTMENT = 0.075f;
     @BindView(R.id.toolbar)
@@ -187,7 +187,7 @@ public class ZhihuStoryInfoActivity extends BaseActivity implements IZhihuStoryI
                                     mToolbarLayout.setContentScrimColor(statusBarColor);
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                         mToolbar.setBackgroundColor(getResources().getColor(R.color.trans_toolbar_7c424141, null));
-                                    }else {
+                                    } else {
                                         mToolbar.setBackgroundColor(getResources().getColor(R.color.trans_toolbar_7c424141));
                                     }
                                     ValueAnimator statusBarColorAnim = ValueAnimator.ofArgb(
