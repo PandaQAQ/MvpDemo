@@ -17,7 +17,7 @@ import com.pandaq.mvpdemo.customview.SwipeBackLayout;
  * 所有侧滑返回的activity的父类
  */
 
-public class SwipeBackActivity extends BaseActivity implements SwipeBackLayout.SwipeListener {
+public class   SwipeBackActivity extends BaseActivity implements SwipeBackLayout.SwipeListener {
     protected SwipeBackLayout layout;
     private ArgbEvaluator argbEvaluator;
     public static int currentStatusColor;
