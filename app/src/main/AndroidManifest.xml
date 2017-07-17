@@ -33,7 +33,9 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.GetSmsActivity"/>
 
-        <activity android:name=".ui.ZhihuStoryInfoActivity"/>
+        <activity
+            android:name=".ui.ZhihuStoryInfoActivity"
+            android:theme="@style/TranslucentFullScreenTheme"/>
         <activity android:name=".ui.WidgetActivity"/>
         <activity android:name=".ui.HttpsActivity"/>
         <activity android:name=".ui.LoopersActivity"/>
