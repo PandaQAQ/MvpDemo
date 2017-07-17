@@ -84,4 +84,18 @@
         app:text="downloader"
         app:textColor="@color/black"
         app:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.01dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/gray_line"/>
+
+    <com.pandaq.mvpdemo.customview.MenuItem
+        android:id="@+id/bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="BottomMenu"
+        app:textColor="@color/black"
+        app:textSize="14sp"/>
 </LinearLayout>
