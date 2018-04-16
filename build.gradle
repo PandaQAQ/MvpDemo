@@ -3,12 +3,13 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        //butterknife
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        // NOTE: Do not place your application dependencies here; they belong
+        classpath 'com.android.tools.build:gradle:3.0.1'
         // in the individual module build.gradle files
         classpath 'com.novoda:bintray-release:0.3.4'
     }
@@ -20,6 +21,7 @@ allprojects {
         maven{
             url  "http://dl.bintray.com/huxinyu/maven"
         }
+        google()
     }
 }
 
