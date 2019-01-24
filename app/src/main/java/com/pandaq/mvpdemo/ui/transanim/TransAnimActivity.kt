@@ -19,6 +19,8 @@ class TransAnimActivity : BaseActivity() {
     var distance = 0f
     var downY = 0f
     var screenWidth = 900f
+    var transFactor = 0f
+    var envFactor = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +59,14 @@ class TransAnimActivity : BaseActivity() {
     }
 
     private fun scrollCover(float: Float) {
-        println(distance)
-        if (-distance < card_cover.measuredHeight * 0.4f) { // 只允许上滑卡片
+        transFactor = (screenWidth / card_content.measuredWidth - 1) / (card_cover.measuredHeight * 0.4f)
+        envFactor = 32 / (card_cover.measuredHeight * 0.4f)
+        if (distance <= 0 && -distance < card_cover.measuredHeight * 0.4f) { // 只允许上滑卡片
             card_cover.translationY = float
+            card_cover.elevation = -envFactor * float + 16
             card_content.translationY = -float
-            val max = screenWidth / card_content.measuredWidth
-            card_content.scaleX = 1 - ((max - 1) / (card_cover.measuredHeight * 0.4f)) * float
-            card_content.scaleY = 1 - ((max - 1) / (card_cover.measuredHeight * 0.4f)) * float
+            card_content.scaleX = 1 - transFactor * float
+            card_content.scaleY = 1 - transFactor * float
         }
     }
 
