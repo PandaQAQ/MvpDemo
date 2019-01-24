@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.pandaq.mvpdemo.R;
+import com.pandaq.mvpdemo.ui.transanim.TransAnimActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -23,7 +24,8 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.tonews, R.id.https_activity, R.id.send_sms, R.id.wheel, R.id.loopers, R.id.downloader,R.id.bottom_menu})
+    @OnClick({R.id.tonews, R.id.https_activity, R.id.send_sms, R.id.wheel,
+            R.id.loopers, R.id.downloader,R.id.bottom_menu,R.id.trans_anim})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -55,6 +57,8 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             default:
+                intent = new Intent(this, TransAnimActivity.class);
+                startActivity(intent);
                 break;
         }
     }

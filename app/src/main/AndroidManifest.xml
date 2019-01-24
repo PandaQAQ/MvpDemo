@@ -41,6 +41,8 @@
         <activity android:name=".ui.LoopersActivity"/>
         <activity android:name=".ui.DownloaderActivity"/>
         <activity android:name=".ui.BottomMenuActivity"/>
+        <activity android:name=".ui.transanim.TransAnimActivity"/>
+        <activity android:name=".ui.transanim.DetailInfoActivity"/>
     </application>
 
 </manifest>
