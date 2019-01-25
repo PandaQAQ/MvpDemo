@@ -29,4 +29,15 @@
         <attr name="textColor"/>
     </declare-styleable>
 
+    <declare-styleable name="ExpandingCard">
+        <!--布局中左边的icon-->
+        <attr name="coverElevation" format="dimension"/>
+        <!--滑动区域占整体高度的百分比-->
+        <attr name="scrollFactor" format="float"/>
+        <!--上滑底部视图放大倍数-->
+        <attr name="backScale" format="float"/>
+        <!--到达阈值时自动执行回调或者下一次上滑执行-->
+        <attr name="autoExecute" format="boolean"/>
+    </declare-styleable>
+
 </resources>

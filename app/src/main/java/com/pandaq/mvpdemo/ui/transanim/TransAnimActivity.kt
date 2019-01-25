@@ -29,9 +29,6 @@ class TransAnimActivity : BaseActivity() {
     private var downY = 0f
     // 覆盖View Y 轴初始偏移量
     private var initCoverTransY = 0f
-    private var screenWidth = 900f
-    private var transFactor = 0f
-    private var envFactor = 0f
     private lateinit var evaluator: FloatEvaluator
     private lateinit var collapseAnim: ValueAnimator
     private lateinit var expandAnim: ValueAnimator
@@ -67,11 +64,7 @@ class TransAnimActivity : BaseActivity() {
                     if (distance > 0) {
                         distance = 0f
                     }
-                    if (cardState == STATE_EXPAND && distance <= -card_cover.measuredHeight * 0.18f) { // 展开状态拉到顶继续上拉
-                        if (!viewPause) {
-                            startDetail()
-                        }
-                    } else {
+                    if (cardState != STATE_EXPAND || distance > -card_cover.measuredHeight * 0.18f) { // 展开状态拉到顶继续上拉
                         scrollCover(distance)
                     }
                 }
@@ -91,8 +84,12 @@ class TransAnimActivity : BaseActivity() {
                             // 动画回到折叠状态
                             collapse()
                         } else {
-                            // 动画回到展开状态
-                            expand()
+                            if (distance <= -card_cover.measuredHeight * 0.18f) {
+                                startDetail()
+                            } else {
+                                // 动画回到展开状态
+                                expand()
+                            }
                         }
                     }
                 }
@@ -111,8 +108,6 @@ class TransAnimActivity : BaseActivity() {
     }
 
     private fun scrollCover(distance: Float) {
-        transFactor = 1.0f / card_cover.measuredHeight
-        envFactor = 32 / (card_cover.measuredHeight * 0.18f)
         if (distance <= 0 && -distance < card_cover.measuredHeight * 0.18f) { // 只允许上滑卡片
             card_cover.translationY = distance
             card_content.translationY = -distance
