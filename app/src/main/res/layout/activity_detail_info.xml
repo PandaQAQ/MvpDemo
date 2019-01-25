@@ -1,38 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/iv_header_pic"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/pic_background"
-        android:transitionName="imageHeader"/>
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/iv_header_pic"
+        android:background="@drawable/background_corner_white"
         android:padding="@dimen/margin_8dp"
-        android:text="我们可以这样想，还有比登录后可以发表内容更轻一级的方式，
-            就是不用登录即可发表内容，而鲜有网站会这么做，原因显而易见，当大家没有
-            身份的时候，无论从网站管理的角度还是用户的角度，内容的质量都更加无法控制。
-            那既然这样我们往后推一步，是不是能认为更加严格的登录后才可以浏览内容，
-            有助于高质量内容的产生呢，我的观点是可以答：首先，知乎是一个带有社交成
-            分的产品，在这里大家对隐私的顾虑越少，内容质量越高，关系和身份越容易建立。
-            高质量的内容往往是需要身份认同感的，比如我在写答案的时候，如果我明确知道
-            我是谁，我在对哪些人说话，就更可能产生高质量的内容其次，对于知乎这样的
-            社区来讲，用户高质量内容的出产要比内容消费更珍贵，所以更需要保护。
-            知乎做法其实就是把登录的阻力放到了内容消费之前，而在更敏感的内容出产的时刻，
-            尽量减少干扰。大家可以想想，有多少次，我们使用一些互联网的产品，
-            看到一个自己感兴趣的东西想发表内容的时候，突然间发现要进行登录，
-            然后很遗憾的试了多次密码，最终放弃，对于网站和用户其实都是损失"
+        android:text="我们可以这样想"
         android:textSize="20sp"
         android:transitionName="textContent"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/iv_header_pic"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="@color/white"
+        android:scaleType="fitXY"
+        android:src="@drawable/pic_background"
+        android:transitionName="imageHeader"/>
+
+</RelativeLayout>
