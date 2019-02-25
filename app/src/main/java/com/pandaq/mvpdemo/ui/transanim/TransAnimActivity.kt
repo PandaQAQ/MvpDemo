@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityOptionsCompat.makeSceneTransitionAnimation
 import android.support.v4.util.Pair
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import com.pandaq.mvpdemo.R
 import com.pandaq.mvpdemo.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_trans_anim.*

@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fl_card_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_cover"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="8dp"/>
+        android:layout_width="240dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:elevation="8dp"
+        android:visibility="visible"
+        app:cardBackgroundColor="#00ff00"/>
+
     <FrameLayout
         android:id="@+id/fl_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</FrameLayout>
+        android:layout_width="232dp"
+        android:layout_height="292dp"
+        android:layout_centerInParent="true"
+        android:visibility="visible"/>
+</RelativeLayout>

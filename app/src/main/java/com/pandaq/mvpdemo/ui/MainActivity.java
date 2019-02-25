@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.pandaq.mvpdemo.R;
 import com.pandaq.mvpdemo.ui.transanim.TransAnimActivity;
+import com.pandaq.mvpdemo.ui.transanim.TransCardActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -57,7 +58,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             default:
-                intent = new Intent(this, TransAnimActivity.class);
+                intent = new Intent(this, TransCardActivity.class);
                 startActivity(intent);
                 break;
         }

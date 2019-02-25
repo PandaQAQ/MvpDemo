@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#606794"
+    android:elevation="0dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <com.pandaq.mvpdemo.customview.expandingcard.ExpandingCard
+        android:id="@+id/ecd_item"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:background="@color/trans_green_5b00796b"
+        app:autoExecute="true"
+        app:cardHeight="100dp"
+        app:cardWidth="80dp"
+        app:contentScale="1.2"
+        app:contentTransName="textContent"
+        app:coverElevation="16dp"
+        app:coverTransName="imageHeader"
+        app:scrollFactor="0.2"/>
+
+    <com.pandaq.mvpdemo.customview.expandingcard.ExpandingCard
+        android:id="@+id/ecd_item1"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:background="@color/trans_green_5b00796b"
+        app:autoExecute="true"
+        app:cardHeight="100dp"
+        app:cardWidth="80dp"
+        app:contentScale="1.2"
+        app:contentTransName="textContent"
+        app:coverElevation="16dp"
+        app:coverTransName="imageHeader"
+        app:scrollFactor="0.2"/>
+</LinearLayout>

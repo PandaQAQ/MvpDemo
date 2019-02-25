@@ -20,6 +20,7 @@ class DetailInfoActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        supportFinishAfterTransition()
+        finishAfterTransition()
+//        supportFinishAfterTransition()
     }
 }
